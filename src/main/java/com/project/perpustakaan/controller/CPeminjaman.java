@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import com.project.perpustakaan.model.Peminjaman;
 import com.project.perpustakaan.repo.PeminjamanRepo;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,24 +21,33 @@ public class CPeminjaman {
     @Autowired
     private PeminjamanRepo peminjamanRepo;
     
-    @GetMapping(path = "/")//menampilkan semua
+    //menampilkan semua
+    @GetMapping(path = "/get")
     public List<Peminjaman> get_all(){
         return peminjamanRepo.findAll();
     }
 
-    @GetMapping(path= "/{id}")
+    //get by Id
+    @GetMapping(path= "/get/{id}")
     public Optional<Peminjaman> idPeminjaman(@PathVariable Long id){
         return peminjamanRepo.findById(id);
     }
 
-    
-
-
+    //post
     @PostMapping(path="/post")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
         return peminjamanRepo.save(peminjaman);
     }
 
+    //update
+    
+    //delete
+    @DeleteMapping(path= "/delete/{id}")
+    public void deletePeminjaman(@PathVariable Long id){
+        peminjamanRepo.deleteById(id);
+    }
+
+    
     
 
 
