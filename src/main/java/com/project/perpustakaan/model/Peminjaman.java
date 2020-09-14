@@ -26,5 +26,31 @@ public class Peminjaman {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+
+    //memasagn setter dan getter
+    void setKatalog(Katalog katalog){
+        this.katalog = katalog;
+    }
+
+    void setMember(Member member){
+        this.member = member;
+    }
+
+    void setTanggal(Date tanggal){
+        this.tgl_pinjam = tanggal;
+    }
+
+    public Katalog getkatalog(){
+        return this.katalog;
+    }
+
+    public Member getMember(){
+        return this.member;
+    }
+
+    public Date getTanggal(){
+        return this.tgl_pinjam
+    }
     
 }
