@@ -17,12 +17,6 @@ public class Peminjaman {
     private long id;
 
     @Column(nullable = false)
-    private long id_member;
-
-    @Column(nullable = false)
-    private long id_katalog;
-
-    @Column(nullable = false)
     private Date tgl_pinjam;
 
     @ManyToOne
