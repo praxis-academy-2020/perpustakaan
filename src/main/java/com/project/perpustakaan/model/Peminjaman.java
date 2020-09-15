@@ -16,16 +16,19 @@ public class Peminjaman {
     @ManyToOne(optional=false)
     @JoinColumn(name = "idKatalog", referencedColumnName= "id",insertable = false,updatable = false)
     private Katalog katalog;
+    @Column(nullable = false)
     private Long idKatalog;
 
     @ManyToOne(optional=false)
     @JoinColumn(name = "idMember", referencedColumnName="id",insertable = false,updatable = false)
     private Member member;
+    @Column(nullable = false)
     private Long idMember;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
+    @Column(nullable = false)
     private Date tglPinjam;
 
     //memasang setter dan getter
