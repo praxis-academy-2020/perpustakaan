@@ -45,11 +45,5 @@ public class CPeminjaman {
     @DeleteMapping(path= "/delete/{id}")
     public void deletePeminjaman(@PathVariable Long id){
         peminjamanRepo.deleteById(id);
-    }
-
-    
-    
-
-
-    
+    }    
 }
