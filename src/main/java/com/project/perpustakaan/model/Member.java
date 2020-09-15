@@ -30,5 +30,31 @@ public class Member {
  private List<Peminjaman> peminjaman;
 
  //menambahkan seter dan getter
+
+ void setNama(String nama){
+     this.nama = nama;
+ }
+
+ public String getNama(){
+     return this.nama;
+ }
+
+ void setEmail(String email){
+    this.nama = email;
+}
+
+public String getEmail(){
+    return this.email;
+}
+
+void setNo_hp(String no){
+    this.no_hp = no;
+}
+
+public String getNo_hp(){
+    return this.no_hp;
+}
+
+
     
 }
