@@ -23,14 +23,12 @@ public class Peminjaman {
     @ManyToOne
     @JoinColumn(name = "katalog_id", referencedColumnName= "id",insertable = false,updatable = false)
     private Katalog katalog;
-
     @Column
     private Long id_katalog;
 
     @ManyToOne
     @JoinColumn(name = "member_id", referencedColumnName="id",insertable = false,updatable = false)
     private Member member;
-
     @Column
     private Long id_member;
 
@@ -40,21 +38,32 @@ public class Peminjaman {
         this.tgl_pinjam = tanggal;
     }
 
-    void setId_katalog(Long id){
-        this.id_katalog= id;
+    public Date getTgl_pinjam(){
+        return this.tgl_pinjam;
     }
 
-    void setId_member(Long id){
-        this.id_member= id;
+    void setId_katalog(Long id){
+        this.id_katalog= id;
     }
 
     public Long getId_katalog(){
         return id_katalog;
     }
 
-    public Date getTanggal(){
-        return this.tgl_pinjam;
+    void setId_member(Long id){
+        this.id_member= id;
     }
+
+    public Long getId_member(){
+        return id_member;
+    }
+
+    public Long getId(){
+        return id;
+    }
+    
+
+    
     
     
 }
