@@ -23,19 +23,19 @@ public class CPeminjaman {
     private PeminjamanRepo peminjamanRepo;
     
     //menampilkan semua
-    @GetMapping(path = "/get")
+    @GetMapping(path = "/")
     public List<Peminjaman> get_all(){
         return peminjamanRepo.findAll();
     }
 
     //get by Id
-    @GetMapping(path= "/get/{id}")
+    @GetMapping(path= "/{id}")
     public Optional<Peminjaman> idPeminjaman(@PathVariable Long id){
         return peminjamanRepo.findById(id);
     }
 
     //post
-    @PostMapping(path="/post")
+    @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
         return peminjamanRepo.save(peminjaman);
     }
@@ -59,7 +59,7 @@ public class CPeminjaman {
     // }
     
     //delete
-    @DeleteMapping(path= "/delete/{id}")
+    @DeleteMapping(path= "/{id}")
     public void deletePeminjaman(@PathVariable Long id){
         peminjamanRepo.deleteById(id);
     }    

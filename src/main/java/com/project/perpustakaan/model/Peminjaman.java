@@ -3,6 +3,7 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,58 +13,63 @@ import javax.persistence.Table;
 @Table(name = "peminjaman")
 public class Peminjaman {
 
-    @Id
-    @GeneratedValue
-    private long id;
+    // @ManyToOne(optional=false)
+    // @JoinColumn(name = "nomorSekolah", referencedColumnName="nomorSekolah", insertable = false, updatable = false)
+    // private Sekolah sekolah;
 
-    @Column(nullable = false)
-    private Date tgl_pinjam;
-    
-
-    @ManyToOne
-    @JoinColumn(name = "katalog_id", referencedColumnName= "id",insertable = false,updatable = false)
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "idKatalog", referencedColumnName= "id",insertable = false,updatable = false)
     private Katalog katalog;
-    @Column
-    private Long id_katalog;
+    private Long idKatalog;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id", referencedColumnName="id",insertable = false,updatable = false)
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "idMember", referencedColumnName="id",insertable = false,updatable = false)
     private Member member;
-    @Column
-    private Long id_member;
+    private Long idMember;
 
-    //memasagn setter dan getter
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+    private Date tglPinjam;
 
-    void setTgl_pinjam(Date tanggal){
-        this.tgl_pinjam = tanggal;
-    }
+    //memasang setter dan getter
 
-    public Date getTgl_pinjam(){
-        return this.tgl_pinjam;
-    }
-
-    void setId_katalog(Long id){
-        this.id_katalog= id;
-    }
-
-    public Long getId_katalog(){
-        return id_katalog;
-    }
-
-    void setId_member(Long id){
-        this.id_member= id;
-    }
-
-    public Long getId_member(){
-        return id_member;
-    }
-
-    public Long getId(){
+    public Long getId() {
         return id;
     }
-    
+    public void setId(Long id){
+        this.id = id;
+    }
 
-    
-    
-    
+    public Date getTglPinjam() {
+        return tglPinjam;
+    }
+    public void setTglPinjam(Date tglPinjam){
+        this.tglPinjam = tglPinjam;
+    }
+    public Long getIdKatalog() {
+        return idKatalog;
+    }
+    public void setIdKatalog(Long idKatalog){
+        this.idKatalog = idKatalog;
+    }
+    public Long getIdMember() {
+        return idMember;
+    }
+    public void setIdMember(Long idMember){
+        this.idMember = idMember;
+    }
+    public Member getMember() {
+        return member;
+    }
+    public void setMember(Member member){
+        this.member = member;
+    }
+    public Katalog getKatalog() {
+        return katalog;
+    }
+    public void setKatalog(Katalog katalog){
+        this.katalog = katalog;
+    }
+
 }

@@ -22,19 +22,19 @@ public class CMember {
     private MemberRepo memberRepo;
     
     //menampilkan semua
-    @GetMapping(path = "/get")
+    @GetMapping(path = "/")
     public List<Member> get_all(){
         return memberRepo.findAll();
     }
 
     //get by Id
-    @GetMapping(path= "/get/{id}")
+    @GetMapping(path= "/{id}")
     public Optional<Member> idMember(@PathVariable Long id){
         return memberRepo.findById(id);
     }
 
     //post
-    @PostMapping(path="/post")
+    @PostMapping(path="/")
     public Member addMember(@RequestBody Member member){
         return memberRepo.save(member);
     }
@@ -58,7 +58,7 @@ public class CMember {
     // }
     
     //delete
-    @DeleteMapping(path= "/delete/{id}")
+    @DeleteMapping(path= "/{id}")
     public void deleteMember(@PathVariable Long id){
         memberRepo.deleteById(id);
     }     

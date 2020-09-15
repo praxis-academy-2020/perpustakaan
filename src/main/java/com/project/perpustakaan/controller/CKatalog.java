@@ -22,25 +22,25 @@ public class CKatalog {
     private KatalogRepo katalogRepo;
     
     //menampilkan semua
-    @GetMapping(path = "/get")
+    @GetMapping(path = "/")
     public List<Katalog> get_all(){
         return katalogRepo.findAll();
     }
 
     //get by Id
-    @GetMapping(path= "/get/{id}")
+    @GetMapping(path= "/{id}")
     public Katalog idkatalog(@PathVariable Long id){
         return katalogRepo.findById(id).get();
     }
 
     //post
-    @PostMapping(path="/post")
+    @PostMapping(path="/")
     public Katalog addKatalog(@RequestBody Katalog katalog){
         return katalogRepo.save(katalog);
     }
 
     //update
-    @PutMapping("/edit/{id}")
+    @PutMapping("/{id}")
     Katalog updatekatalog(@RequestBody Katalog newUser, @PathVariable Long id) {
       
       return katalogRepo.findById(id)
@@ -59,7 +59,7 @@ public class CKatalog {
     }
     
     //delete
-    @DeleteMapping(path= "/delete/{id}")
+    @DeleteMapping(path= "/{id}")
     public void deleteKatalog(@PathVariable Long id){
         katalogRepo.deleteById(id);
     }    

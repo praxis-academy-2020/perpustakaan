@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -14,8 +15,9 @@ import javax.persistence.Table;
 public class Member {
 
 
-@Id @GeneratedValue
- private long id;
+@Id 
+@GeneratedValue(strategy=GenerationType.AUTO)
+ private Long id;
  
  @Column(nullable = false)
  private String nama;
@@ -24,14 +26,14 @@ public class Member {
  private String email;
 
  @Column(nullable = false)
- private String no_hp;
+ private String noHp;
 
  @OneToMany(mappedBy = "member")
  private List<Peminjaman> peminjaman;
 
  //menambahkan seter dan getter
 
- void setNama(String nama){
+ public void setNama(String nama){
      this.nama = nama;
  }
 
@@ -39,24 +41,27 @@ public class Member {
      return this.nama;
  }
 
- void setEmail(String email){
-    this.nama = email;
+ public void setEmail(String email){
+    this.email = email;
 }
 
 public String getEmail(){
     return this.email;
 }
 
-void setNo_hp(String no){
-    this.no_hp = no;
+public void setNoHp(String noHp){
+    this.noHp = noHp;
 }
 
-public String getNo_hp(){
-    return this.no_hp;
+public String getNoHp(){
+    return this.noHp;
 }
 
 public Long getId(){
     return this.id;
+}
+public void setId(Long id){
+    this.id = id;
 }
     
 }
