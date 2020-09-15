@@ -13,10 +13,6 @@ import javax.persistence.Table;
 @Table(name = "peminjaman")
 public class Peminjaman {
 
-    // @ManyToOne(optional=false)
-    // @JoinColumn(name = "nomorSekolah", referencedColumnName="nomorSekolah", insertable = false, updatable = false)
-    // private Sekolah sekolah;
-
     @ManyToOne(optional=false)
     @JoinColumn(name = "idKatalog", referencedColumnName= "id",insertable = false,updatable = false)
     private Katalog katalog;
@@ -35,10 +31,7 @@ public class Peminjaman {
     //memasang setter dan getter
 
     public Long getId() {
-        return id;
-    }
-    public void setId(Long id){
-        this.id = id;
+        return this.id;
     }
 
     public Date getTglPinjam() {

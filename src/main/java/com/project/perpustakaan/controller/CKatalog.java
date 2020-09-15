@@ -53,7 +53,6 @@ public class CKatalog {
 
       })
       .orElseGet(() -> {
-        //  newUser.setId(id);
         return katalogRepo.save(newUser);
       });
     }

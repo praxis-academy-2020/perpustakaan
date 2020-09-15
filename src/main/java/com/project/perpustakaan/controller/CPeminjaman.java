@@ -41,22 +41,21 @@ public class CPeminjaman {
     }
 
     //update
-    // @PutMapping("/{id}")
-    // Peminjaman updatepeminjaman(@RequestBody Peminjaman newUser, @PathVariable Long id) {
+    @PutMapping("/{id}")
+    Peminjaman updatepeminjaman(@RequestBody Peminjaman newPeminjaman, @PathVariable Long id) {
       
-    //   return peminjamanRepository.findById(id)
-    //   .map(katalog -> {
-    //    peminjaman.setTgl_pinjam(newUser.getTgl_pinjam());
-    //    peminjaman.setId_katalog(newUser.getId_katalog());
-    //    peminjaman.setId_member(newUser.getId_member());
-    //     return peminjamanRepository.save(peminjaman);
+      return peminjamanRepo.findById(id)
+      .map(peminjaman -> {
+       peminjaman.setTglPinjam(newPeminjaman.getTglPinjam());
+       peminjaman.setIdKatalog(newPeminjaman.getIdKatalog());
+       peminjaman.setIdMember(newPeminjaman.getIdMember());
+        return peminjamanRepo.save(peminjaman);
 
-    //   })
-    //   .orElseGet(() -> {
-    //      newUser.setId(id);
-    //     return peminjamanRepository.save(newUser);
-    //   });
-    // }
+      })
+      .orElseGet(() -> {
+        return peminjamanRepo.save(newPeminjaman);
+      });
+    }
     
     //delete
     @DeleteMapping(path= "/{id}")
