@@ -23,34 +23,43 @@ public class CPeminjaman {
     private PeminjamanRepo peminjamanRepo;
     
     //menampilkan semua
-    @GetMapping(path = "/get")
+    @GetMapping(path = "/")
     public List<Peminjaman> get_all(){
         return peminjamanRepo.findAll();
     }
 
     //get by Id
-    @GetMapping(path= "/get/{id}")
+    @GetMapping(path= "/{id}")
     public Optional<Peminjaman> idPeminjaman(@PathVariable Long id){
         return peminjamanRepo.findById(id);
     }
 
     //post
-    @PostMapping(path="/post")
+    @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
         return peminjamanRepo.save(peminjaman);
     }
 
     //update
-    // @PutMapping(path = "/update/{id}")
-    // public Peminjaman updatePeminjaman(@RequestBody Peminjaman newPeminjaman, @PathVariable Long id){
-    //     return peminjaman.findById(id)
-    //     .map(peminjaman->{
-    //         peminjaman
-    //     })
-    //  }
+    // @PutMapping("/{id}")
+    // Peminjaman updatepeminjaman(@RequestBody Peminjaman newUser, @PathVariable Long id) {
+      
+    //   return peminjamanRepository.findById(id)
+    //   .map(katalog -> {
+    //    peminjaman.setTgl_pinjam(newUser.getTgl_pinjam());
+    //    peminjaman.setId_katalog(newUser.getId_katalog());
+    //    peminjaman.setId_member(newUser.getId_member());
+    //     return peminjamanRepository.save(peminjaman);
+
+    //   })
+    //   .orElseGet(() -> {
+    //      newUser.setId(id);
+    //     return peminjamanRepository.save(newUser);
+    //   });
+    // }
     
     //delete
-    @DeleteMapping(path= "/delete/{id}")
+    @DeleteMapping(path= "/{id}")
     public void deletePeminjaman(@PathVariable Long id){
         peminjamanRepo.deleteById(id);
     }    

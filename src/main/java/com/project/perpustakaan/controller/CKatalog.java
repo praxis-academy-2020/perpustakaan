@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,27 +22,44 @@ public class CKatalog {
     private KatalogRepo katalogRepo;
     
     //menampilkan semua
-    @GetMapping(path = "/get")
+    @GetMapping(path = "/")
     public List<Katalog> get_all(){
         return katalogRepo.findAll();
     }
 
     //get by Id
-    @GetMapping(path= "/get/{id}")
-    public Optional<Katalog> idkatalog(@PathVariable Long id){
-        return katalogRepo.findById(id);
+    @GetMapping(path= "/{id}")
+    public Katalog idkatalog(@PathVariable Long id){
+        return katalogRepo.findById(id).get();
     }
 
     //post
-    @PostMapping(path="/post")
+    @PostMapping(path="/")
     public Katalog addKatalog(@RequestBody Katalog katalog){
         return katalogRepo.save(katalog);
     }
 
     //update
+    @PutMapping("/{id}")
+    Katalog updatekatalog(@RequestBody Katalog newUser, @PathVariable Long id) {
+      
+      return katalogRepo.findById(id)
+      .map(katalog -> {
+        katalog.setJudul(newUser.getJudul());
+        katalog.setAuthor(newUser.getAuthor());
+        katalog.setTahun(newUser.getTahun());
+        katalog.setSinopsis(newUser.getSinopsis());
+        return katalogRepo.save(katalog);
+
+      })
+      .orElseGet(() -> {
+        //  newUser.setId(id);
+        return katalogRepo.save(newUser);
+      });
+    }
     
     //delete
-    @DeleteMapping(path= "/delete/{id}")
+    @DeleteMapping(path= "/{id}")
     public void deleteKatalog(@PathVariable Long id){
         katalogRepo.deleteById(id);
     }    
