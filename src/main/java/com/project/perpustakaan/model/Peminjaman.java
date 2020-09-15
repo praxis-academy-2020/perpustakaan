@@ -18,6 +18,7 @@ public class Peminjaman {
 
     @Column(nullable = false)
     private Date tgl_pinjam;
+    
 
     @ManyToOne
     @JoinColumn(name = "katalog_id", referencedColumnName= "id",insertable = false,updatable = false)
