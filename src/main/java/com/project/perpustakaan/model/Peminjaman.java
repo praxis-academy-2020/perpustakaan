@@ -59,19 +59,7 @@ public class Peminjaman {
         return id_katalog;
     }
 
-    public Long getId_member(){
-        return id_member;
-    }
-
-    // public Katalog getkatalog(){
-    //     return this.katalog;
-    // }
-
-    // public Member getMember(){
-    //     return this.member;
-    // }
-
-    public Date getTgl_pinjam(){
+    public Date getTanggal(){
         return this.tgl_pinjam;
     }
     
