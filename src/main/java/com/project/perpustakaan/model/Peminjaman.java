@@ -50,7 +50,7 @@ public class Peminjaman {
     }
 
     public Date getTanggal(){
-        return this.tgl_pinjam
+        return this.tgl_pinjam;
     }
     
 }
