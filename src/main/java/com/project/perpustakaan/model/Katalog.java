@@ -41,14 +41,14 @@ public class Katalog {
         return this.id;
     }
     //judul
-    void setJudul(String judul){
+    public void setJudul(String judul){
         this.judul = judul;
     }
     public String getJudul(){
         return this.judul;
     }
     //author
-    void setAuthor(String author){
+    public void setAuthor(String author){
         this.author = author;
     }
     public String getAuthor(){
@@ -56,14 +56,14 @@ public class Katalog {
     }
 
     //tahun
-    void setTahun(int tahun){
+    public void setTahun(int tahun){
         this.tahun = tahun;
     }
     public int getTahun(){
         return this.tahun;
     }
     //sinopsis
-    void setSinopsis(String sinopsis){
+    public void setSinopsis(String sinopsis){
         this.sinopsis = sinopsis;
     }
     public String getSinopsis(){

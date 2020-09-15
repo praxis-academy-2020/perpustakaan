@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,22 @@ public class CMember {
     }
 
     //update
+    // @PutMapping("/{id}")
+    // Member updatemember(@RequestBody Member newUser, @PathVariable Long id) {
+      
+    //   return memberRepository.findById(id)
+    //   .map(member -> {
+    //     member.setNama(newUser.getNama());
+    //     member.setEmail(newUser.getEmail());
+    //     member.setNo_hp(newUser.getNo_hp());
+    //     return katalogRepository.save(member);
+
+    //   })
+    //   .orElseGet(() -> {
+    //      newUser.setId(id);
+    //     return memberRepository.save(newUser);
+    //   });
+    // }
     
     //delete
     @DeleteMapping(path= "/delete/{id}")
