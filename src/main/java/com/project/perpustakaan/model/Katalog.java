@@ -24,7 +24,7 @@ public class Katalog {
     private String judul;
 
     @Column(nullable = false)
-    private String Author;
+    private String author;
 
     @Column(nullable = false)
     private int tahun;
@@ -35,6 +35,40 @@ public class Katalog {
     @OneToMany(mappedBy = "katalog")
     private List<Peminjaman> peminjaman;
     //membuat setter dan getter dan reaalsi table
+
+    //id
+    public Long getId(){
+        return this.id;
+    }
+    //judul
+    void setJudul(String judul){
+        this.judul = judul;
+    }
+    public String getJudul(){
+        return this.judul;
+    }
+    //author
+    void setAuthor(String author){
+        this.author = author;
+    }
+    public String getAuthor(){
+        return this.author;
+    }
+
+    //tahun
+    void setTahun(int tahun){
+        this.tahun = tahun;
+    }
+    public int getTahun(){
+        return this.tahun;
+    }
+    //sinopsis
+    void setSinopsis(String sinopsis){
+        this.sinopsis = sinopsis;
+    }
+    public String getSinopsis(){
+        return this.sinopsis;
+    }
 
     
 }
