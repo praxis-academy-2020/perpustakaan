@@ -35,13 +35,6 @@ public class Peminjaman {
     private Long id_member;
 
     //memasagn setter dan getter
-    void setKatalog(Katalog katalog){
-        this.katalog = katalog;
-    }
-
-    void setMember(Member member){
-        this.member = member;
-    }
 
     void setTgl_pinjam(Date tanggal){
         this.tgl_pinjam = tanggal;
@@ -62,5 +55,6 @@ public class Peminjaman {
     public Date getTanggal(){
         return this.tgl_pinjam;
     }
+    
     
 }
