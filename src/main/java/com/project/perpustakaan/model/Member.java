@@ -55,6 +55,8 @@ public String getNo_hp(){
     return this.no_hp;
 }
 
-
+public Long getId(){
+    return this.id;
+}
     
 }
