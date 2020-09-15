@@ -20,13 +20,18 @@ public class Peminjaman {
     private Date tgl_pinjam;
 
     @ManyToOne
-    @JoinColumn(name = "katalog_id")
+    @JoinColumn(name = "katalog_id", referencedColumnName= "id",insertable = false,updatable = false)
     private Katalog katalog;
 
+    @Column
+    private Long id_katalog;
+
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", referencedColumnName="id",insertable = false,updatable = false)
     private Member member;
 
+    @Column
+    private Long id_member;
 
     //memasagn setter dan getter
     void setKatalog(Katalog katalog){
@@ -37,20 +42,36 @@ public class Peminjaman {
         this.member = member;
     }
 
-    void setTanggal(Date tanggal){
+    void setTgl_pinjam(Date tanggal){
         this.tgl_pinjam = tanggal;
     }
 
-    public Katalog getkatalog(){
-        return this.katalog;
+    void setId_katalog(Long id){
+        this.id_katalog= id;
     }
 
-    public Member getMember(){
-        return this.member;
+    void setId_member(Long id){
+        this.id_member= id;
     }
 
-    public Date getTanggal(){
-        return this.tgl_pinjam
+    public Long getId_katalog(){
+        return id_katalog;
+    }
+
+    public Long getId_member(){
+        return id_member;
+    }
+
+    // public Katalog getkatalog(){
+    //     return this.katalog;
+    // }
+
+    // public Member getMember(){
+    //     return this.member;
+    // }
+
+    public Date getTgl_pinjam(){
+        return this.tgl_pinjam;
     }
     
 }
