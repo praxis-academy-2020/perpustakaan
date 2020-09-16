@@ -31,6 +31,9 @@ public class Peminjaman {
     @Column(nullable = false)
     private Date tglPinjam;
 
+    @Column(columnDefinition = "integer default 0")
+    private int tagihan;
+
     //memasang setter dan getter
 
     public Long getId() {
@@ -67,5 +70,14 @@ public class Peminjaman {
     public void setKatalog(Katalog katalog){
         this.katalog = katalog;
     }
+
+    public void setTagihan(int tagihan){
+        this.tagihan = tagihan;
+    }
+
+    public int getTagihan(){
+        return this.tagihan;
+    }
+
 
 }
