@@ -70,13 +70,16 @@ public class CPeminjaman {
       });
     }
     
-    //delete. hanya dapat di hapus jika
+    //delete. hanya dapat di hapus jika statusnya false
     @DeleteMapping(path= "/{id}")
     public void deletePeminjaman(@PathVariable Long id){
-        peminjamanRepo.deleteById(id);
+      Peminjaman peminjaman = peminjamanRepo.findById(id).get();
+      if (!peminjaman.getStatus()) {
+        peminjamanRepo.deleteById(id);  
+      }
     } 
     
-    //menghapus peminjaman
+    //mengubah status peminjaman dan menghitung denda peminjaman
     @PutMapping("/pengembalian/{id}")
     Peminjaman updateTagihan(@RequestBody Peminjaman newPeminjaman, @PathVariable Long id) {
       
