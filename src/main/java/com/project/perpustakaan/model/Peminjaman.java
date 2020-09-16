@@ -31,8 +31,13 @@ public class Peminjaman {
     @Column(nullable = false)
     private Date tglPinjam;
 
+    //tanggl kembalinya buku, maksimal 20    
+    @Column(nullable = false)
+    private Date tglKembali;
+
     @Column(columnDefinition = "integer default 0")
     private int tagihan;
+
 
     //memasang setter dan getter
 
@@ -77,6 +82,13 @@ public class Peminjaman {
 
     public int getTagihan(){
         return this.tagihan;
+    }
+
+    public Date getTglKembali() {
+        return tglKembali;
+    }
+    public void setTglKembali(Date tglPinjam){
+        this.tglKembali = tglKembali;
     }
 
 
