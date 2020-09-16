@@ -35,6 +35,7 @@ public class CPeminjaman {
     }
 
     //post
+    // yang di edti adalah id member, id katalog dan dan tanggal pinjam
     @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
         return peminjamanRepo.save(peminjaman);
@@ -61,5 +62,33 @@ public class CPeminjaman {
     @DeleteMapping(path= "/{id}")
     public void deletePeminjaman(@PathVariable Long id){
         peminjamanRepo.deleteById(id);
-    }    
+    } 
+    
+    //membuat daftar tagihan yang masuk dimana
+
+    // yang terjadi dalam tagihan
+    // cek terlambatan
+    // menjumlah tagihan
+    // membuat status
+
+    @PutMapping("/pengembalian/{id}")
+    Peminjaman updateTagihan(@RequestBody Peminjaman newPeminjaman, @PathVariable Long id) {
+      
+      return peminjamanRepo.findById(id)
+      .map(peminjaman -> {
+       peminjaman.setTglKembali(newPeminjaman.getTglKembali());
+       peminjaman.setTagihan(
+        //newPeminjaman.getTglPinjam()- newPeminjaman.getTglKembali()
+         2000
+         );//perlu dilakukan pengurangan dari keterlambatan
+       peminjaman.setStatus(false);
+       //ditambah stok buku kita tambah 1;
+       return peminjamanRepo.save(peminjaman);
+
+      })
+      .orElseGet(() -> {
+        return peminjamanRepo.save(newPeminjaman);
+      });
+    }
+    
 }
