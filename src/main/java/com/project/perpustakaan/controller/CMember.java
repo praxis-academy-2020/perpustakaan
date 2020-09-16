@@ -40,22 +40,21 @@ public class CMember {
     }
 
     //update
-    // @PutMapping("/{id}")
-    // Member updatemember(@RequestBody Member newUser, @PathVariable Long id) {
+    @PutMapping("/{id}")
+    Member updatemember(@RequestBody Member newMember, @PathVariable Long id) {
       
-    //   return memberRepository.findById(id)
-    //   .map(member -> {
-    //     member.setNama(newUser.getNama());
-    //     member.setEmail(newUser.getEmail());
-    //     member.setNo_hp(newUser.getNo_hp());
-    //     return katalogRepository.save(member);
+      return memberRepo.findById(id)
+      .map(member -> {
+        member.setNama(newMember.getNama());
+        member.setEmail(newMember.getEmail());
+        member.setNoHp(newMember.getNoHp());
+        return memberRepo.save(member);
 
-    //   })
-    //   .orElseGet(() -> {
-    //      newUser.setId(id);
-    //     return memberRepository.save(newUser);
-    //   });
-    // }
+      })
+      .orElseGet(() -> {
+        return memberRepo.save(newMember);
+      });
+    }
     
     //delete
     @DeleteMapping(path= "/{id}")
