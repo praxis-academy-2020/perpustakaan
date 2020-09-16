@@ -54,7 +54,7 @@ public class CKatalog {
 
       })
       .orElseGet(() -> {
-        return katalogRepo.save(newUser);
+        return katalogRepo.save(newKatalog);
       });
     }
     
