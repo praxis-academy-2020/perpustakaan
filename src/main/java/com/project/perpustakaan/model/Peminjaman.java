@@ -31,12 +31,17 @@ public class Peminjaman {
     @Column(nullable = false)
     private Date tglPinjam;
 
-    //tanggl kembalinya buku, maksimal 20    
-    @Column(nullable = false)
+    //tanggl kembalinya buku, maksimal 10 hari   
+    @Column()
     private Date tglKembali;
+
+    @Column(columnDefinition = "boolean default true")
+    private Boolean status;
 
     @Column(columnDefinition = "integer default 0")
     private int tagihan;
+
+    
 
 
     //memasang setter dan getter
@@ -85,10 +90,17 @@ public class Peminjaman {
     }
 
     public Date getTglKembali() {
-        return tglKembali;
+        return this.tglKembali;
     }
-    public void setTglKembali(Date tglPinjam){
+    public void setTglKembali(Date tglKembali){
         this.tglKembali = tglKembali;
+    }
+
+    public Boolean getStatus() {
+        return this.status;
+    }
+    public void setStatus(Boolean status){
+        this.status = status;
     }
 
 
