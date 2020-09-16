@@ -43,7 +43,13 @@ public class CPeminjaman {
     // yang di edti adalah id member, id katalog dan dan tanggal pinjam
     @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
-        return peminjamanRepo.save(peminjaman);
+        Katalog katalog = katalogRepo.findById(peminjaman.getIdKatalog()).get();
+        int jumlah = katalog.getJumlah();
+        if(jumlah>=1){
+          katalog.setJumlah(--jumlah);
+          return peminjamanRepo.save(peminjaman);
+        }
+        return null;
     }
 
     //update
@@ -64,7 +70,7 @@ public class CPeminjaman {
       });
     }
     
-    //delete
+    //delete. hanya dapat di hapus jika
     @DeleteMapping(path= "/{id}")
     public void deletePeminjaman(@PathVariable Long id){
         peminjamanRepo.deleteById(id);
