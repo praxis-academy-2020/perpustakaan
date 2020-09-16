@@ -41,14 +41,15 @@ public class CKatalog {
 
     //update
     @PutMapping("/{id}")
-    Katalog updatekatalog(@RequestBody Katalog newUser, @PathVariable Long id) {
+    Katalog updatekatalog(@RequestBody Katalog newKatalog, @PathVariable Long id) {
       
       return katalogRepo.findById(id)
       .map(katalog -> {
-        katalog.setJudul(newUser.getJudul());
-        katalog.setAuthor(newUser.getAuthor());
-        katalog.setTahun(newUser.getTahun());
-        katalog.setSinopsis(newUser.getSinopsis());
+        katalog.setJudul(newKatalog.getJudul());
+        katalog.setAuthor(newKatalog.getAuthor());
+        katalog.setTahun(newKatalog.getTahun());
+        katalog.setSinopsis(newKatalog.getSinopsis());
+        katalog.setJumlah(newKatalog.getJumlah());
         return katalogRepo.save(katalog);
 
       })

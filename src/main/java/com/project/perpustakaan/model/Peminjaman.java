@@ -1,5 +1,8 @@
 package com.project.perpustakaan.model;
-import java.sql.Date;
+
+import static javax.persistence.TemporalType.DATE;
+
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,35 +11,38 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "peminjaman")
 public class Peminjaman {
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "idKatalog", referencedColumnName= "id",insertable = false,updatable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idKatalog", referencedColumnName = "id", insertable = false, updatable = false)
     private Katalog katalog;
     @Column(nullable = false)
     private Long idKatalog;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "idMember", referencedColumnName="id",insertable = false,updatable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idMember", referencedColumnName = "id", insertable = false, updatable = false)
     private Member member;
     @Column(nullable = false)
     private Long idMember;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(nullable = false)
+    //@Temporal(TemporalType.DATE)
     private Date tglPinjam;
 
     //tanggl kembalinya buku, maksimal 10 hari   
-    @Column()
+    //@Temporal(TemporalType.DATE)
     private Date tglKembali;
 
-    @Column(columnDefinition = "boolean default true")
-    private Boolean status;
+    @Column()
+    private Boolean status = true;
 
     @Column(columnDefinition = "integer default 0")
     private int tagihan;
@@ -55,6 +61,7 @@ public class Peminjaman {
     }
     public void setTglPinjam(Date tglPinjam){
         this.tglPinjam = tglPinjam;
+       // this.tglPinjam = new Date(); 
     }
     public Long getIdKatalog() {
         return idKatalog;
@@ -94,6 +101,7 @@ public class Peminjaman {
     }
     public void setTglKembali(Date tglKembali){
         this.tglKembali = tglKembali;
+        this.tglKembali = new Date();
     }
 
     public Boolean getStatus() {
