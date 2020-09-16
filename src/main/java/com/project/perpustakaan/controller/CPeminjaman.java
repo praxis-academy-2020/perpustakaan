@@ -70,14 +70,7 @@ public class CPeminjaman {
         peminjamanRepo.deleteById(id);
     } 
     
-    //membuat daftar tagihan yang masuk dimana
-
-    // yang terjadi dalam tagihan
-    // cek terlambatan
-    // menjumlah tagihan
-    // membuat status
-
-    //mengembalikan buku
+    //menghapus peminjaman
     @PutMapping("/pengembalian/{id}")
     Peminjaman updateTagihan(@RequestBody Peminjaman newPeminjaman, @PathVariable Long id) {
       
@@ -97,14 +90,6 @@ public class CPeminjaman {
           return peminjamanRepo.save(newPeminjaman);
         }
 
-      
-      
-
-
-      
-    }
-
-    private void updatePengembalian(){
       
     }
 
