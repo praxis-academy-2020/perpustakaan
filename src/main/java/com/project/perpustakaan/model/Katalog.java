@@ -35,6 +35,10 @@ public class Katalog {
     
     @OneToMany(mappedBy = "katalog")
     private List<Peminjaman> peminjaman;
+
+    @Column(columnDefinition = "integer default 0")
+    private int jumlah;
+
     //membuat setter dan getter dan reaalsi table
 
     //id
@@ -69,6 +73,14 @@ public class Katalog {
     }
     public String getSinopsis(){
         return this.sinopsis;
+    }
+
+    public void setJumlah(int jumlah){
+        this.jumlah = jumlah;
+    }
+    
+    public int getJumlah(){
+        return this.jumlah;
     }
 
     

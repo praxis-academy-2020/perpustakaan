@@ -28,8 +28,7 @@ public class Member {
  @Column(nullable = false)
  private String noHp;
 
- @Column(columnDefinition = "integer default 0")
- private int jumlah;
+ 
 
  @OneToMany(mappedBy = "member")
  private List<Peminjaman> peminjaman;
@@ -67,12 +66,6 @@ public void setId(Long id){
     this.id = id;
 }
 
-public void setJumlah(int jumlah){
-    this.jumlah = jumlah;
-}
 
-public int getJumlah(){
-    return this.jumlah;
-}
     
 }
