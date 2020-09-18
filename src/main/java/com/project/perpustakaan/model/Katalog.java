@@ -36,7 +36,7 @@ public class Katalog {
     @OneToMany(mappedBy = "katalog")
     private List<Peminjaman> peminjaman;
 
-    @Column(columnDefinition = "integer default 0")
+    @Column(columnDefinition = "integer default 1")
     private int jumlah;
 
     //membuat setter dan getter dan reaalsi table

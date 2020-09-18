@@ -1,5 +1,7 @@
 package com.project.perpustakaan.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -26,7 +28,7 @@ public class CPeminjaman {
     private PeminjamanRepo peminjamanRepo;
     @Autowired
     private KatalogRepo katalogRepo;
-    
+    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
     //menampilkan semua
     @GetMapping(path = "/")
     public List<Peminjaman> get_all(){
@@ -84,14 +86,29 @@ public class CPeminjaman {
     Peminjaman updateTagihan(@RequestBody Peminjaman newPeminjaman, @PathVariable Long id) {
       
       Peminjaman peminjaman = peminjamanRepo.findById(id).get();
+      
         try {
           if(peminjaman.getStatus()){
-            Katalog katalog = katalogRepo.findById(peminjaman.getIdKatalog()).get();  
-            peminjaman.setTglKembali(newPeminjaman.getTglKembali());
-            peminjaman.setTagihan(2000);//perlu untuk menghitung tanggal
+            Katalog katalog = katalogRepo.findById(peminjaman.getIdKatalog()).get();
             peminjaman.setStatus(false);
             int jumlah = katalog.getJumlah();
             katalog.setJumlah(++jumlah);
+
+            //menghitung durasi peminjaman
+            
+            long denda = 5000;
+            Date d1 = peminjaman.getTglPinjam();;
+            Date d2 = newPeminjaman.getTglKembali();
+            peminjaman.setTglKembali(newPeminjaman.getTglKembali());
+            long diff = d2.getTime()-d1.getTime();
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+            System.out.println("DATE = "+d1);
+            System.out.println("DATE = "+d2);
+            System.out.println("HARIII = "+ diffDays);
+            if(diffDays>7){
+              peminjaman.setTagihan((diffDays-7)*denda);
+            }else peminjaman.setTagihan(0);//perlu untuk menghitung tanggal
+            
           }
           return peminjamanRepo.save(peminjaman);
         } catch (Exception e) {

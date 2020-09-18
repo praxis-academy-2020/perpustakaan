@@ -2,7 +2,7 @@ package com.project.perpustakaan.model;
 
 import static javax.persistence.TemporalType.DATE;
 
-import java.util.Date;
+import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,7 +45,7 @@ public class Peminjaman {
     private Boolean status = true;
 
     @Column(columnDefinition = "integer default 0")
-    private int tagihan;
+    private Long tagihan;
 
     
 
@@ -88,11 +88,11 @@ public class Peminjaman {
         this.katalog = katalog;
     }
 
-    public void setTagihan(int tagihan){
-        this.tagihan = tagihan;
+    public void setTagihan(long l){
+        this.tagihan = l;
     }
 
-    public int getTagihan(){
+    public Long getTagihan(){
         return this.tagihan;
     }
 
@@ -101,7 +101,7 @@ public class Peminjaman {
     }
     public void setTglKembali(Date tglKembali){
         this.tglKembali = tglKembali;
-        this.tglKembali = new Date();
+       // this.tglKembali = new Date();
     }
 
     public Boolean getStatus() {
