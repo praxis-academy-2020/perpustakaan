@@ -1,6 +1,7 @@
 package com.project.perpustakaan.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -93,20 +94,21 @@ public class CPeminjaman {
             peminjaman.setStatus(false);
             int jumlah = katalog.getJumlah();
             katalog.setJumlah(++jumlah);
+            peminjaman.setTglKembali(Calendar.getInstance().getTime());
 
             //menghitung durasi peminjaman
             
             long denda = 5000;
             Date d1 = peminjaman.getTglPinjam();;
-            Date d2 = newPeminjaman.getTglKembali();
-            peminjaman.setTglKembali(newPeminjaman.getTglKembali());
+            Date d2 = Calendar.getInstance().getTime();
+            
             long diff = d2.getTime()-d1.getTime();
             long diffDays = diff / (24 * 60 * 60 * 1000);
             System.out.println("DATE = "+d1);
             System.out.println("DATE = "+d2);
             System.out.println("HARIII = "+ diffDays);
             if(diffDays>7){
-              peminjaman.setTagihan((diffDays-7)*denda);
+              peminjaman.setTagihan((diffDays-7)* denda);
             }else peminjaman.setTagihan(0);//perlu untuk menghitung tanggal
             
           }

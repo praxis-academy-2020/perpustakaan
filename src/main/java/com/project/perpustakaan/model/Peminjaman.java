@@ -2,7 +2,11 @@ package com.project.perpustakaan.model;
 
 import static javax.persistence.TemporalType.DATE;
 
-import java.sql.Date;
+//import java.text.SimpleDateFormat;
+//import java.sql.Date;
+import java.util.Calendar;
+
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,9 +18,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "peminjaman")
 public class Peminjaman {
+
+    // Date tanggal = new Date();
+    // SimpleDateFormat formattype = new SimpleDateFormat("dd MMMM yyyy");
+    // //format.format(tanggal);
+    // formattype.format(tanggal);
+
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "idKatalog", referencedColumnName = "id", insertable = false, updatable = false)
@@ -33,21 +45,19 @@ public class Peminjaman {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(nullable = false)
-    //@Temporal(TemporalType.DATE)
-    private Date tglPinjam;
 
-    //tanggl kembalinya buku, maksimal 10 hari   
-    //@Temporal(TemporalType.DATE)
+    @Column(nullable = false)
+    @JsonFormat(pattern="dd-MMMM-yyyy")
+    private Date tglPinjam = Calendar.getInstance().getTime();
+
+    @JsonFormat(pattern="dd-MMMM-yyyy")
     private Date tglKembali;
 
-    @Column()
     private Boolean status = true;
 
-    @Column(columnDefinition = "integer default 0")
+    @Column(columnDefinition = "long default 0")
     private Long tagihan;
-
-    
+  
 
 
     //memasang setter dan getter
@@ -60,8 +70,7 @@ public class Peminjaman {
         return tglPinjam;
     }
     public void setTglPinjam(Date tglPinjam){
-        this.tglPinjam = tglPinjam;
-       // this.tglPinjam = new Date(); 
+       this.tglPinjam = tglPinjam;
     }
     public Long getIdKatalog() {
         return idKatalog;
@@ -88,8 +97,8 @@ public class Peminjaman {
         this.katalog = katalog;
     }
 
-    public void setTagihan(long l){
-        this.tagihan = l;
+    public void setTagihan(long tagihan){
+        this.tagihan = tagihan;
     }
 
     public Long getTagihan(){
