@@ -24,11 +24,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Table(name = "peminjaman")
 public class Peminjaman {
 
-    // Date tanggal = new Date();
-    // SimpleDateFormat formattype = new SimpleDateFormat("dd MMMM yyyy");
-    // //format.format(tanggal);
-    // formattype.format(tanggal);
-
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "idKatalog", referencedColumnName = "id", insertable = false, updatable = false)
@@ -55,7 +50,7 @@ public class Peminjaman {
 
     private Boolean status = true;
 
-    @Column(columnDefinition = "long default 0")
+    @Column(columnDefinition = "Long default 0")
     private Long tagihan;
   
 

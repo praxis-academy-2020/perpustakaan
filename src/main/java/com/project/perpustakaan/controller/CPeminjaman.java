@@ -29,7 +29,7 @@ public class CPeminjaman {
     private PeminjamanRepo peminjamanRepo;
     @Autowired
     private KatalogRepo katalogRepo;
-    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+   // SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
     //menampilkan semua
     @GetMapping(path = "/")
     public List<Peminjaman> get_all(){
@@ -47,6 +47,7 @@ public class CPeminjaman {
     @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
         Katalog katalog = katalogRepo.findById(peminjaman.getIdKatalog()).get();
+        peminjaman.setTagihan(0);
         int jumlah = katalog.getJumlah();
         if(jumlah>=1){
           katalog.setJumlah(--jumlah);
