@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.TimeZone;
 
 import com.project.perpustakaan.model.Katalog;
 import com.project.perpustakaan.model.Peminjaman;
@@ -29,8 +30,7 @@ public class CPeminjaman {
     private PeminjamanRepo peminjamanRepo;
     @Autowired
     private KatalogRepo katalogRepo;
-   // SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-    //menampilkan semua
+  
     @GetMapping(path = "/")
     public List<Peminjaman> get_all(){
         return peminjamanRepo.findAll();
@@ -47,7 +47,7 @@ public class CPeminjaman {
     @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
         Katalog katalog = katalogRepo.findById(peminjaman.getIdKatalog()).get();
-        peminjaman.setTagihan(0);
+        peminjaman.setTglPinjam(Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime());
         int jumlah = katalog.getJumlah();
         if(jumlah>=1){
           katalog.setJumlah(--jumlah);
@@ -102,13 +102,13 @@ public class CPeminjaman {
             
             long denda = 5000;
             Date d1 = peminjaman.getTglPinjam();;
-            Date d2 = Calendar.getInstance().getTime();  
+            Date d2 = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime();  
             long diff = d2.getTime()-d1.getTime();
             long diffDays = diff / (24 * 60 * 60 * 1000);
             System.out.println("HARIIII = "+diffDays);
-            if(diffDays>7){
-              peminjaman.setTagihan((diffDays-7)* denda);
-            }else peminjaman.setTagihan(0);//perlu untuk menghitung tanggal
+            // if(diffDays>7){
+            //   peminjaman.setTagihan((diffDays-7)* denda);
+            // }else peminjaman.setTagihan(0);//perlu untuk menghitung tanggal
             
           }
           return peminjamanRepo.save(peminjaman);
