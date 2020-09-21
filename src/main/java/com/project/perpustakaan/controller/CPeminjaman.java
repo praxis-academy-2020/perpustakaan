@@ -51,9 +51,6 @@ public class CPeminjaman {
         int jumlah = katalog.getJumlah();
         if(jumlah>=1){
           katalog.setJumlah(--jumlah);
-          if(peminjaman.getTglKembali()!=null){
-            peminjaman.setTglKembali(peminjaman.getTglKembali());
-          }
           return peminjamanRepo.save(peminjaman);
         }
         return null;
@@ -98,10 +95,7 @@ public class CPeminjaman {
             peminjaman.setStatus(false);
             int jumlah = katalog.getJumlah();
             katalog.setJumlah(++jumlah);
-            //memasukkan tanggal kembali dengan pengendaluan
-            if(newPeminjaman.getTglKembali()!=null){
-              peminjaman.setTglKembali(newPeminjaman.getTglKembali());
-            }else
+            //memasukkan tanggal kembali
               peminjaman.setTglKembali(Calendar.getInstance().getTime());
 
             //menghitung durasi peminjaman
@@ -111,6 +105,7 @@ public class CPeminjaman {
             Date d2 = Calendar.getInstance().getTime();  
             long diff = d2.getTime()-d1.getTime();
             long diffDays = diff / (24 * 60 * 60 * 1000);
+            System.out.println("HARIIII = "+diffDays);
             if(diffDays>7){
               peminjaman.setTagihan((diffDays-7)* denda);
             }else peminjaman.setTagihan(0);//perlu untuk menghitung tanggal
@@ -122,7 +117,8 @@ public class CPeminjaman {
           return peminjamanRepo.save(newPeminjaman);
         }
 
-      
+
+        
     }
 
     
