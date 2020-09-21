@@ -1,7 +1,5 @@
 package com.project.perpustakaan.model;
 
-import static javax.persistence.TemporalType.DATE;
-
 //import java.text.SimpleDateFormat;
 //import java.sql.Date;
 import java.util.Calendar;
@@ -15,8 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -24,22 +21,23 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Table(name = "peminjaman")
 public class Peminjaman {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "idKatalog", referencedColumnName = "id", insertable = false, updatable = false)
-    private Katalog katalog;
     @Column(nullable = false)
     private Long idKatalog;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "idMember", referencedColumnName = "id", insertable = false, updatable = false)
-    private Member member;
+    @JoinColumn(name = "idKatalog", referencedColumnName = "id", insertable = false, updatable = false)
+    private Katalog katalog;
+    
     @Column(nullable = false)
     private Long idMember;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idMember", referencedColumnName = "id", insertable = false, updatable = false)
+    private Member member;
 
     @Column(nullable = false)
     @JsonFormat(pattern="dd-MMMM-yyyy")
@@ -49,11 +47,6 @@ public class Peminjaman {
     private Date tglKembali;
 
     private Boolean status = true;
-
-    @Column(columnDefinition = "Long default 0")
-    private Long tagihan;
-  
-
 
     //memasang setter dan getter
 
@@ -90,14 +83,6 @@ public class Peminjaman {
     }
     public void setKatalog(Katalog katalog){
         this.katalog = katalog;
-    }
-
-    public void setTagihan(long tagihan){
-        this.tagihan = tagihan;
-    }
-
-    public Long getTagihan(){
-        return this.tagihan;
     }
 
     public Date getTglKembali() {
