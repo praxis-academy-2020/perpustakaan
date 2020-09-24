@@ -3,10 +3,17 @@ package com.project.perpustakaan.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.project.perpustakaan.model.Katalog;
+import com.project.perpustakaan.model.User;
 import com.project.perpustakaan.repository.KatalogRepo;
+import com.project.perpustakaan.repository.UserRepository;
+import com.project.perpustakaan.security.JwtTokenProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +28,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class CKatalog {
     @Autowired
     private KatalogRepo katalogRepo;
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+    @Autowired
+    UserRepository userRepository;
     
     //menampilkan semua
     @GetMapping(path = "/")
@@ -40,7 +51,12 @@ public class CKatalog {
         return katalogRepo.save(katalog);
     }
 
-    //update
+    
+    
+    //membuat fungsi untuk mendapatkan user_role
+    //jika rolenya berhasil maka akan diambil
+
+    // update
     @PutMapping("/{id}")
     Katalog updatekatalog(@RequestBody Katalog newKatalog, @PathVariable Long id) {
       

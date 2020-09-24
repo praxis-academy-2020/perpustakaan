@@ -79,14 +79,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/api/auth/**")
-                .permitAll()
-                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
-                .permitAll()
-                //.anyRequest()//melakukan enyrequest
-                //.authenticated()
+                .antMatchers("/api/auth/**").permitAll()//membuka semua request
+                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**").permitAll()
+                //mengijinkan URL_PUBLIC yang di open dengan beberapa role
+                .antMatchers(HttpMethod.GET, "/katalog/*").permitAll()
+                .antMatchers(HttpMethod.POST,"/member/").permitAll()//bisa di buat di contoler auth
+
+                .antMatchers(HttpMethod.POST,"/peminjaman/").hasRole("USER")
+                
+                .antMatchers(HttpMethod.GET,"/peminjaman/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/peminjaman/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/peminjaman/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/katalog/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/katalog/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/katalog/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/member/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/member/").hasRole("ADMIN")
+                .anyRequest()
+                .authenticated()
                 ;
 
         // Add our custom JWT security filter
