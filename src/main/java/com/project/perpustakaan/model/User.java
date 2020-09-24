@@ -29,6 +29,7 @@ public class User extends DateAudit{
 
         @NotBlank
         @Size(max = 40)
+        @Column(nullable = false)
         private String noHp;
 
         @NotBlank
@@ -45,6 +46,8 @@ public class User extends DateAudit{
         @Size(max = 100)
         private String password;
 
+
+        //membuat dengan menggunakan table baru user roles
         @ManyToMany(fetch = FetchType.LAZY)
         @JoinTable(name = "user_roles",
                 joinColumns = @JoinColumn(name = "user_id"),
