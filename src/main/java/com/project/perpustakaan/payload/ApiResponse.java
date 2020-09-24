@@ -1,4 +1,4 @@
-package com.example.jwt.payload;
+package com.project.perpustakaan.payload;
 
 public class ApiResponse {
     private Boolean success;

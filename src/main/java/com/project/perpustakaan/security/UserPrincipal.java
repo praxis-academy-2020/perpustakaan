@@ -1,6 +1,6 @@
-package com.example.jwt.security;
+package com.project.perpustakaan.security;
 
-import com.example.jwt.model.User;
+import com.project.perpustakaan.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class UserPrincipal implements UserDetails {
     private Long id;
 
-    private String name;
+    private String noHp;
 
     private String username;
 
@@ -26,9 +26,9 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String noHp, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
-        this.name = name;
+        this.noHp = noHp;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -42,7 +42,7 @@ public class UserPrincipal implements UserDetails {
 
         return new UserPrincipal(
                 user.getId(),
-                user.getName(),
+                user.getNoHp(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
@@ -54,8 +54,8 @@ public class UserPrincipal implements UserDetails {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getNoHp() {
+        return noHp;
     }
 
     public String getEmail() {

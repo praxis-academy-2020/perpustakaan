@@ -1,8 +1,8 @@
-package com.example.jwt.config;
+package com.project.perpustakaan.config;
 
-import com.example.jwt.security.CustomUserDetailsService;
-import com.example.jwt.security.JwtAuthenticationEntryPoint;
-import com.example.jwt.security.JwtAuthenticationFilter;
+import com.project.perpustakaan.security.CustomUserDetailsService;
+import com.project.perpustakaan.security.JwtAuthenticationEntryPoint;
+import com.project.perpustakaan.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

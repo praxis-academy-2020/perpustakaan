@@ -1,4 +1,4 @@
-package com.example.jwt.payload;
+package com.project.perpustakaan.payload;
 
 import javax.validation.constraints.*;
 

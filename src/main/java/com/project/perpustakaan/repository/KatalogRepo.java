@@ -1,4 +1,4 @@
-package com.project.perpustakaan.repo;
+package com.project.perpustakaan.repository;
 import com.project.perpustakaan.model.Katalog;
 import org.springframework.data.jpa.repository.JpaRepository;
 

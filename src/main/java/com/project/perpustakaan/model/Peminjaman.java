@@ -33,11 +33,11 @@ public class Peminjaman {
     private Katalog katalog;
     
     @Column(nullable = false)
-    private Long idMember;
+    private Long iduser;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "idMember", referencedColumnName = "id", insertable = false, updatable = false)
-    private Member member;
+    @JoinColumn(name = "iduser", referencedColumnName = "id", insertable = false, updatable = false)
+    private User user;
 
     @Column(nullable = false)
     @JsonFormat(pattern="dd-MMMM-yyyy")
@@ -66,17 +66,17 @@ public class Peminjaman {
     public void setIdKatalog(Long idKatalog){
         this.idKatalog = idKatalog;
     }
-    public Long getIdMember() {
-        return idMember;
+    public Long getIdUser() {
+        return iduser;
     }
-    public void setIdMember(Long idMember){
-        this.idMember = idMember;
+    public void setIdUser(Long iduser){
+        this.iduser = iduser;
     }
-    public Member getMember() {
-        return member;
+    public User getUser() {
+        return user;
     }
-    public void setMember(Member member){
-        this.member = member;
+    public void setUser(User user){
+        this.user = user;
     }
     public Katalog getKatalog() {
         return katalog;

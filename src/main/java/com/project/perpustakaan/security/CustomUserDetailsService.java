@@ -1,7 +1,7 @@
-package com.example.jwt.security;
+package com.project.perpustakaan.security;
 
-import com.example.jwt.model.User;
-import com.example.jwt.repository.UserRepository;
+import com.project.perpustakaan.model.User;
+import com.project.perpustakaan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

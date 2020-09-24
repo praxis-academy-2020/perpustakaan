@@ -10,8 +10,9 @@ import java.util.TimeZone;
 
 import com.project.perpustakaan.model.Katalog;
 import com.project.perpustakaan.model.Peminjaman;
-import com.project.perpustakaan.repo.KatalogRepo;
-import com.project.perpustakaan.repo.PeminjamanRepo;
+import com.project.perpustakaan.repository.KatalogRepo;
+import com.project.perpustakaan.repository.PeminjamanRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,7 @@ public class CPeminjaman {
     }
 
     //post
-    // yang di edti adalah id member, id katalog dan dan tanggal pinjam
+    // yang di edti adalah id User, id katalog dan dan tanggal pinjam
     @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
         Katalog katalog = katalogRepo.findById(peminjaman.getIdKatalog()).get();
@@ -64,7 +65,7 @@ public class CPeminjaman {
       .map(peminjaman -> {
        peminjaman.setTglPinjam(newPeminjaman.getTglPinjam());
        peminjaman.setIdKatalog(newPeminjaman.getIdKatalog());
-       peminjaman.setIdMember(newPeminjaman.getIdMember());
+       peminjaman.setIdUser(newPeminjaman.getIdUser());
        peminjaman.setStatus(newPeminjaman.getStatus());
         return peminjamanRepo.save(peminjaman);
 

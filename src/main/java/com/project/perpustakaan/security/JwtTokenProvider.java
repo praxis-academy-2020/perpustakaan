@@ -1,4 +1,4 @@
-package com.example.jwt.security;
+package com.project.perpustakaan.security;
 
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;

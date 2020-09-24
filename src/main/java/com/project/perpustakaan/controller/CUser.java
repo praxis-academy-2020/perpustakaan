@@ -3,8 +3,11 @@ package com.project.perpustakaan.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.project.perpustakaan.model.Member;
-import com.project.perpustakaan.repo.MemberRepo;
+//import com.project.perpustakaan.model.Member;
+import com.project.perpustakaan.model.User;
+//import com.project.perpustakaan.repository.MemberRepo;
+import com.project.perpustakaan.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,48 +20,49 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/member")
-public class CMember {
+public class CUser {
     @Autowired
-    private MemberRepo memberRepo;
+    private UserRepository userRepository;
     
     //menampilkan semua
     @GetMapping(path = "/")
-    public List<Member> get_all(){
-        return memberRepo.findAll();
+    public List<User> get_all(){
+        return userRepository.findAll();
     }
 
     //get by Id
     @GetMapping(path= "/{id}")
-    public Optional<Member> idMember(@PathVariable Long id){
-        return memberRepo.findById(id);
+    public Optional<User> idUser(@PathVariable Long id){
+        return userRepository.findById(id);
     }
 
     //post
     @PostMapping(path="/")
-    public Member addMember(@RequestBody Member member){
-        return memberRepo.save(member);
+    public User addUser(@RequestBody User user){
+        return userRepository.save(user);
     }
 
     //update
     @PutMapping("/{id}")
-    Member updatemember(@RequestBody Member newMember, @PathVariable Long id) {
+    User updatUser(@RequestBody User newUser, @PathVariable Long id) {
       
-      return memberRepo.findById(id)
-      .map(member -> {
-        member.setNama(newMember.getNama());
-        member.setEmail(newMember.getEmail());
-        member.setNoHp(newMember.getNoHp());
-        return memberRepo.save(member);
+      return userRepository.findById(id)
+      .map(user -> {
+        user.setUsername(newUser.getUsername());
+        user.setPassword(newUser.getPassword());
+        user.setEmail(newUser.getEmail());
+        user.setNoHp(newUser.getNoHp());
+        return userRepository.save(user);
 
       })
       .orElseGet(() -> {
-        return memberRepo.save(newMember);
+        return userRepository.save(newUser);
       });
     }
     
     //delete
     @DeleteMapping(path= "/{id}")
     public void deleteMember(@PathVariable Long id){
-        memberRepo.deleteById(id);
+        userRepository.deleteById(id);
     }     
 }

@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.project.perpustakaan.model.Katalog;
-import com.project.perpustakaan.repo.KatalogRepo;
+import com.project.perpustakaan.repository.KatalogRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.example.jwt.security;
+package com.project.perpustakaan.security;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import java.lang.annotation.*;
