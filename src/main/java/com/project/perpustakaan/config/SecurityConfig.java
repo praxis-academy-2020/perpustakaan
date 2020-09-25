@@ -86,14 +86,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/katalog/*").permitAll()
                 .antMatchers(HttpMethod.POST,"/member/").permitAll()//bisa di buat di contoler auth
 
-                .antMatchers(HttpMethod.POST,"/peminjaman/").hasRole("USER")
+                .antMatchers(HttpMethod.POST,"/peminjaman/").hasRole("ADMIN")
                 
-                .antMatchers(HttpMethod.GET,"/peminjaman/").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE,"/peminjaman/").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT,"/peminjaman/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/peminjaman/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/peminjaman/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/peminjaman/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/katalog/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/katalog/").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/katalog/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/katalog/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/katalog/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,"/member/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/member/").hasRole("ADMIN")
                 .anyRequest()

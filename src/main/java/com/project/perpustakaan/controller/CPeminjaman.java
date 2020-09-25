@@ -10,10 +10,13 @@ import java.util.TimeZone;
 
 import com.project.perpustakaan.model.Katalog;
 import com.project.perpustakaan.model.Peminjaman;
+import com.project.perpustakaan.payload.ApiResponse;
 import com.project.perpustakaan.repository.KatalogRepo;
 import com.project.perpustakaan.repository.PeminjamanRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,10 +51,12 @@ public class CPeminjaman {
     @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
         Katalog katalog = katalogRepo.findById(peminjaman.getIdKatalog()).get();
-        peminjaman.setTglPinjam(Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime());
+        
         int jumlah = katalog.getJumlah();
         if(jumlah>=1){
           katalog.setJumlah(--jumlah);
+          peminjaman.setTglPinjam(Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime());
+          //status default true di modelnya
           return peminjamanRepo.save(peminjaman);
         }
         return null;
@@ -106,10 +111,13 @@ public class CPeminjaman {
             Date d2 = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime();  
             long diff = d2.getTime()-d1.getTime();
             long diffDays = diff / (24 * 60 * 60 * 1000);
-            System.out.println("HARIIII = "+diffDays);
             // if(diffDays>7){
             //   peminjaman.setTagihan((diffDays-7)* denda);
             // }else peminjaman.setTagihan(0);//perlu untuk menghitung tanggal
+            
+          }else{
+            //output console
+            //return ResponseEntity.status(200).body("Buku belum dikembalikan.");
             
           }
           return peminjamanRepo.save(peminjaman);
