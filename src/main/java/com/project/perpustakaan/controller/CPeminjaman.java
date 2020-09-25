@@ -34,7 +34,7 @@ public class CPeminjaman {
     private PeminjamanRepo peminjamanRepo;
     @Autowired
     private KatalogRepo katalogRepo;
-  
+    private final long denda = 5000;
     @GetMapping(path = "/")
     public List<Peminjaman> get_all(){
         return peminjamanRepo.findAll();
@@ -106,14 +106,13 @@ public class CPeminjaman {
 
             //menghitung durasi peminjaman
             
-            long denda = 5000;
             Date d1 = peminjaman.getTglPinjam();;
             Date d2 = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime();  
             long diff = d2.getTime()-d1.getTime();
             long diffDays = diff / (24 * 60 * 60 * 1000);
-            // if(diffDays>7){
-            //   peminjaman.setTagihan((diffDays-7)* denda);
-            // }else peminjaman.setTagihan(0);//perlu untuk menghitung tanggal
+            if(diffDays>7){
+              peminjaman.setTagihan((diffDays-7)* denda);
+            }else peminjaman.setTagihan(0);//perlu untuk menghitung tanggal
             
           }else{
             //output console
@@ -133,12 +132,11 @@ public class CPeminjaman {
     @GetMapping(path = "/tagihan/{id}")
     public float Tagihan(@PathVariable Long id){
       Peminjaman peminjaman = peminjamanRepo.findById(id).get();
-      long denda = 5000;
             Date d1 = peminjaman.getTglPinjam();;
             Date d2 = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime();  
             long diff = d2.getTime()-d1.getTime();
             long diffDays = diff / (24 * 60 * 60 * 1000);
-            long tagihan = diffDays*denda;
+            long tagihan = (diffDays-7)*denda;
       return tagihan;
     }
 

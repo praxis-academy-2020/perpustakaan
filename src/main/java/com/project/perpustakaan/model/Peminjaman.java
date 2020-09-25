@@ -48,6 +48,8 @@ public class Peminjaman {
 
     private Boolean status = true;
 
+    private long tagihan;
+
     //memasang setter dan getter
 
     public Long getId() {
@@ -98,6 +100,13 @@ public class Peminjaman {
     }
     public void setStatus(Boolean status){
         this.status = status;
+    }
+
+    public long getTagihan() {
+        return this.tagihan;
+    }
+    public void setTagihan(long tagihan){
+        this.tagihan = tagihan;
     }
 
 
