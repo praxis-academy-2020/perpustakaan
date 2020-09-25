@@ -130,5 +130,17 @@ public class CPeminjaman {
         
     }
 
+    @GetMapping(path = "/tagihan/{id}")
+    public float Tagihan(@PathVariable Long id){
+      Peminjaman peminjaman = peminjamanRepo.findById(id).get();
+      long denda = 5000;
+            Date d1 = peminjaman.getTglPinjam();;
+            Date d2 = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime();  
+            long diff = d2.getTime()-d1.getTime();
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+            long tagihan = diffDays*denda;
+      return tagihan;
+    }
+
     
 }
