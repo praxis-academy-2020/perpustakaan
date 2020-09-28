@@ -1,17 +1,14 @@
 package com.project.perpustakaan.controller;
 
-import java.util.List;
-import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 
-//import com.project.perpustakaan.model.Member;
+import com.project.perpustakaan.controller.service.SPeminjaman;
+import com.project.perpustakaan.controller.service.SUser;
+import com.project.perpustakaan.controller.service.Service;
+import com.project.perpustakaan.model.Peminjaman;
 import com.project.perpustakaan.model.User;
-//import com.project.perpustakaan.repository.MemberRepo;
-import com.project.perpustakaan.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,50 +16,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/member")
+@RequestMapping(path = "/user")
+@PreAuthorize("hasRole(\"ROLE_USER\")")
 public class CUser {
+
     @Autowired
-    private UserRepository userRepository;
-    
-    //menampilkan semua
-    @GetMapping(path = "/")
-    public List<User> get_all(){
-        return userRepository.findAll();
+    private SUser sUser;
+    @Autowired
+    private Service service;
+    @Autowired
+    private SPeminjaman sPeminjaman;
+
+    // update USERNYA
+    @PutMapping("/")
+    User updateUser(@RequestBody User newUser, HttpServletRequest request) {
+      long id = service.getUserIdByToken(request);
+      return sUser.updateUser(newUser,id);
     }
 
-    //get by Id
-    @GetMapping(path= "/{id}")
-    public Optional<User> idUser(@PathVariable Long id){
-        return userRepository.findById(id);
-    }
-
-    //post
+    //post peminjamanNYA
     @PostMapping(path="/")
-    public User addUser(@RequestBody User user){
-        return userRepository.save(user);
+    public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman, HttpServletRequest request){
+      long id = service.getUserIdByToken(request);
+      return sPeminjaman.addPeminjaman(peminjaman.getIdKatalog(),id);
     }
 
-    //update
-    @PutMapping("/{id}")
-    User updatUser(@RequestBody User newUser, @PathVariable Long id) {
+    //get Besar tagihan by id User
       
-      return userRepository.findById(id)
-      .map(user -> {
-        user.setUsername(newUser.getUsername());
-        user.setPassword(newUser.getPassword());
-        user.setEmail(newUser.getEmail());
-        user.setNoHp(newUser.getNoHp());
-        return userRepository.save(user);
-
-      })
-      .orElseGet(() -> {
-        return userRepository.save(newUser);
-      });
-    }
-    
-    //delete
-    @DeleteMapping(path= "/{id}")
-    public void deleteMember(@PathVariable Long id){
-        userRepository.deleteById(id);
-    }     
 }

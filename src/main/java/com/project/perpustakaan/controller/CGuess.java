@@ -1,6 +1,12 @@
 package com.project.perpustakaan.controller;
 
+import javax.validation.Valid;
+
+import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 import com.project.perpustakaan.exception.AppException;
+import com.project.perpustakaan.model.Katalog;
 import com.project.perpustakaan.model.Role;
 import com.project.perpustakaan.model.RoleName;
 import com.project.perpustakaan.model.User;
@@ -8,49 +14,57 @@ import com.project.perpustakaan.payload.ApiResponse;
 import com.project.perpustakaan.payload.JwtAuthenticationResponse;
 import com.project.perpustakaan.payload.LoginRequest;
 import com.project.perpustakaan.payload.SignUpRequest;
+import com.project.perpustakaan.repository.KatalogRepo;
 import com.project.perpustakaan.repository.RoleRepository;
 import com.project.perpustakaan.repository.UserRepository;
-import com.project.perpustakaan.security.JwtAuthenticationFilter;
 import com.project.perpustakaan.security.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Optional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RestController
-@RequestMapping("/api/auth")
-public class AuthController {
+@RequestMapping(path = "/guess")
+public class CGuess {
 
     @Autowired
-    AuthenticationManager authenticationManager;
-
+    private KatalogRepo katalogRepo;
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
     @Autowired
     PasswordEncoder passwordEncoder;
-
+    @Autowired
+    RoleRepository roleRepository;
+    @Autowired
+    AuthenticationManager authenticationManager;
     @Autowired
     JwtTokenProvider tokenProvider;
+    
+    // line awal pengolahan katalog
+    @GetMapping(path= "/katalog/{id}")
+    public Katalog idkatalog(@PathVariable Long id){
+        return katalogRepo.findById(id).get();
+    }
 
-    //untu mendapatkan token
+    @GetMapping(path = "/katalog/")
+    public List<Katalog> get_all(){
+        return katalogRepo.findAll();
+    }
+    //line akhir pengolahan katalog
+
+    //line awal pengolahan login
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -67,30 +81,8 @@ public class AuthController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
-    private String getJwt(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
-        }
+ 
 
-        return null;
-    }
-
-    //cek akses dengan token
-    @GetMapping("/user")
-    public ResponseEntity<?> user(HttpServletRequest request) {
-        String bearerToken = this.getJwt(request);
-        if (bearerToken == null) {
-            return ResponseEntity.status(403).body("akses tidak diizinkan.");
-        }
-
-        long userId = tokenProvider.getUserIdFromJWT(bearerToken);
-        Optional<User> user = userRepository.findById(userId);
-
-        return ResponseEntity.ok(user);
-    }
-
-    //untuk register
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -111,9 +103,9 @@ public class AuthController {
 
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)//tempat menaruh role admin atau user
                 .orElseThrow(() -> new AppException("User Role not set."));
-
+        //masih salah membuat role
         user.setRoles(Collections.singleton(userRole));     
-
+        System.out.println("INI ROLES COYY = " + user.getRoles());
         User result = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder
@@ -122,4 +114,6 @@ public class AuthController {
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
+    //line akhir pengolahan login
+    
 }

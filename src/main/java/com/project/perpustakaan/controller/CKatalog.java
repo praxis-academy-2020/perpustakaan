@@ -1,19 +1,11 @@
 package com.project.perpustakaan.controller;
 
 import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.project.perpustakaan.model.Katalog;
-import com.project.perpustakaan.model.User;
 import com.project.perpustakaan.repository.KatalogRepo;
 import com.project.perpustakaan.repository.UserRepository;
-import com.project.perpustakaan.security.JwtTokenProvider;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/katalog")
-public class CKatalog {
+@PreAuthorize("hasRole(\"ROLE_ADMIN\")")
+public class CKatalog{
     @Autowired
     private KatalogRepo katalogRepo;
-    @Autowired
-    private JwtTokenProvider tokenProvider;
+    
     @Autowired
     UserRepository userRepository;
     
@@ -47,6 +39,8 @@ public class CKatalog {
 
     //post
     @PostMapping(path="/")
+    
+    //@PreAuthorize("hasRole(\"ROLE_ADMIN\")")
     public Katalog addKatalog(@RequestBody Katalog katalog){
         return katalogRepo.save(katalog);
     }

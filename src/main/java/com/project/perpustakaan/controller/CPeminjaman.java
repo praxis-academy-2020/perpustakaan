@@ -1,22 +1,19 @@
 package com.project.perpustakaan.controller;
 
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.TimeZone;
-
+import com.project.perpustakaan.controller.service.SPeminjaman;
+import com.project.perpustakaan.controller.service.Service;
 import com.project.perpustakaan.model.Katalog;
 import com.project.perpustakaan.model.Peminjaman;
-import com.project.perpustakaan.payload.ApiResponse;
 import com.project.perpustakaan.repository.KatalogRepo;
 import com.project.perpustakaan.repository.PeminjamanRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,13 +25,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/peminjaman")
+@PreAuthorize("hasRole(\"ROLE_ADMIN\")")
 public class CPeminjaman {
 
     @Autowired
     private PeminjamanRepo peminjamanRepo;
     @Autowired
+    private Service service;
+    @Autowired
     private KatalogRepo katalogRepo;
-    private final long denda = 5000;
+    @Autowired
+    private SPeminjaman sPeminjaman;
+    
     @GetMapping(path = "/")
     public List<Peminjaman> get_all(){
         return peminjamanRepo.findAll();
@@ -46,20 +48,10 @@ public class CPeminjaman {
         return peminjamanRepo.findById(id);
     }
 
-    //post
-    // yang di edti adalah id User, id katalog dan dan tanggal pinjam
+    //post peminjaman
     @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
-        Katalog katalog = katalogRepo.findById(peminjaman.getIdKatalog()).get();
-        
-        int jumlah = katalog.getJumlah();
-        if(jumlah>=1){
-          katalog.setJumlah(--jumlah);
-          peminjaman.setTglPinjam(Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime());
-          //status default true di modelnya
-          return peminjamanRepo.save(peminjaman);
-        }
-        return null;
+        return sPeminjaman.addPeminjaman(peminjaman.getIdKatalog(),peminjaman.getIdUser());
     }
 
     //update
@@ -73,7 +65,6 @@ public class CPeminjaman {
        peminjaman.setIdUser(newPeminjaman.getIdUser());
        peminjaman.setStatus(newPeminjaman.getStatus());
         return peminjamanRepo.save(peminjaman);
-
       })
       .orElseGet(() -> {
         return peminjamanRepo.save(newPeminjaman);
@@ -102,42 +93,23 @@ public class CPeminjaman {
             int jumlah = katalog.getJumlah();
             katalog.setJumlah(++jumlah);
             //memasukkan tanggal kembali
-              peminjaman.setTglKembali(Calendar.getInstance().getTime());
-
-            //menghitung durasi peminjaman
-            
-            Date d1 = peminjaman.getTglPinjam();;
-            Date d2 = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime();  
-            long diff = d2.getTime()-d1.getTime();
-            long diffDays = diff / (24 * 60 * 60 * 1000);
-            if(diffDays>7){
-              peminjaman.setTagihan((diffDays-7)* denda);
-            }else peminjaman.setTagihan(0);//perlu untuk menghitung tanggal
-            
-          }else{
-            //output console
-            //return ResponseEntity.status(200).body("Buku belum dikembalikan.");
-            
+            Date tgl = peminjaman.getTglPinjam();
+            peminjaman.setTagihan(service.hitungTagihanByTgl(tgl));//perlu untuk menghitung tanggal
+            peminjaman.setTglKembali(Calendar.getInstance().getTime());
           }
           return peminjamanRepo.save(peminjaman);
         } catch (Exception e) {
           System.out.println(e.getMessage());
           return peminjamanRepo.save(newPeminjaman);
         }
-
-
-        
+   
     }
 
     @GetMapping(path = "/tagihan/{id}")
     public float Tagihan(@PathVariable Long id){
       Peminjaman peminjaman = peminjamanRepo.findById(id).get();
-            Date d1 = peminjaman.getTglPinjam();;
-            Date d2 = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta")).getTime();  
-            long diff = d2.getTime()-d1.getTime();
-            long diffDays = diff / (24 * 60 * 60 * 1000);
-            long tagihan = (diffDays-7)*denda;
-      return tagihan;
+          Date tgl = peminjaman.getTglPinjam();
+          return service.hitungTagihanByTgl(tgl);
     }
 
     

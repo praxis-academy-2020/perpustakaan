@@ -82,19 +82,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()//membuka semua request
                 .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**").permitAll()
-                //mengijinkan URL_PUBLIC yang di open dengan beberapa role
-                .antMatchers(HttpMethod.GET, "/katalog/*").permitAll()
-                .antMatchers(HttpMethod.POST,"/member/").permitAll()//bisa di buat di contoler auth
-
-                .antMatchers(HttpMethod.POST,"/peminjaman/").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,"/peminjaman/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE,"/peminjaman/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT,"/peminjaman/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/katalog/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/katalog/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/katalog/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,"/member/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/member/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/guess/**").permitAll()
+                //mencoba akses semua open untuk guess
+                .antMatchers("/guess/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 ;
