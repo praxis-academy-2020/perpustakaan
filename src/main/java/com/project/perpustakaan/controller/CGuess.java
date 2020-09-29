@@ -52,12 +52,12 @@ public class CGuess {
     JwtTokenProvider tokenProvider;
     
     // line awal pengolahan katalog
-    @GetMapping(path= "/katalog/{id}")
+    @GetMapping(path= "/k/{id}")
     public Katalog idkatalog(@PathVariable Long id){
         return katalogRepo.findById(id).get();
     }
 
-    @GetMapping(path = "/katalog/")
+    @GetMapping(path = "/k/")
     public List<Katalog> get_all(){
         return katalogRepo.findAll();
     }

@@ -52,7 +52,7 @@ public class Service {
     public long getUserIdByToken(HttpServletRequest request) {
       String bearerToken = this.getJwt(request);
       long userId = tokenProvider.getUserIdFromJWT(bearerToken);
-      return (userId);
+      return userId;
     }
 
     private String getJwt(HttpServletRequest request) {
