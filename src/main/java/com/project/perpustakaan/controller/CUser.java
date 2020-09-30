@@ -38,24 +38,46 @@ public class CUser {
     // update USERNYA
     @PutMapping("/")
     User updateUser(@RequestBody User newUser, HttpServletRequest request) {
-      long id = service.getUserIdByToken(request);
-      return sUser.updateUser(newUser,id);
+      try {
+        
+        long id = service.getUserIdByToken(request);
+        return sUser.updateUser(newUser,id);
+      } catch (Exception e) {
+        System.out.println("fungsi gagal dijalankan");
+        e.printStackTrace();
+        return null;
+        //TODO: handle exception
+      }
     }
 
     //post peminjamanNYA
     @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman, HttpServletRequest request){
-      long id = service.getUserIdByToken(request);
-      return sPeminjaman.addPeminjaman(peminjaman.getIdKatalog(),id);
+      try {
+        
+        long id = service.getUserIdByToken(request);
+        return sPeminjaman.addPeminjaman(peminjaman.getIdKatalog(),id);
+      } catch (Exception e) {
+        System.out.println("fungsi tidak dapat dijalankan");
+        e.printStackTrace();
+        return null;
+        //TODO: handle exception
+      }
     }
 
     //get data user
     @GetMapping(path= "/")
     public Optional<User> idUser(HttpServletRequest request){
-      
-      long id = service.getUserIdByToken(request);
-      //long id = 1;
-      return userRepository.findById(id);
+      try {
+        long id = service.getUserIdByToken(request);
+        return userRepository.findById(id);
+        
+      } catch (Exception e) {
+        System.out.println("fungsi gagal dijalankan");
+        e.printStackTrace();
+        return null;
+        //TODO: handle exception
+      }
     }
 
     //get Besar tagihan by id User

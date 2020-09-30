@@ -67,18 +67,25 @@ public class CGuess {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsernameOrEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        try {
+            
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsernameOrEmail(),
+                            loginRequest.getPassword()
+                    )
+            );
+    
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+    
+            String jwt = tokenProvider.generateToken(authentication);
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        } catch (Exception e) {
+            System.out.println("fungsi gagal dijalankan");
+            e.printStackTrace();
+            return null;
+            //TODO: handle exception
+        }
     }
 
  
@@ -105,7 +112,7 @@ public class CGuess {
                 .orElseThrow(() -> new AppException("User Role not set."));
         //masih salah membuat role
         user.setRoles(Collections.singleton(userRole));     
-        System.out.println("INI ROLES COYY = " + user.getRoles());
+        //System.out.println("INI ROLES COYY = " + user.getRoles());
         User result = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder

@@ -53,25 +53,38 @@ public class CKatalog{
     // update
     @PutMapping("/{id}")
     Katalog updatekatalog(@RequestBody Katalog newKatalog, @PathVariable Long id) {
-      
-      return katalogRepo.findById(id)
-      .map(katalog -> {
-        katalog.setJudul(newKatalog.getJudul());
-        katalog.setAuthor(newKatalog.getAuthor());
-        katalog.setTahun(newKatalog.getTahun());
-        katalog.setSinopsis(newKatalog.getSinopsis());
-        katalog.setJumlah(newKatalog.getJumlah());
-        return katalogRepo.save(katalog);
-
-      })
-      .orElseGet(() -> {
-        return katalogRepo.save(newKatalog);
-      });
+      try {
+        
+        return katalogRepo.findById(id)
+        .map(katalog -> {
+          katalog.setJudul(newKatalog.getJudul());
+          katalog.setAuthor(newKatalog.getAuthor());
+          katalog.setTahun(newKatalog.getTahun());
+          katalog.setSinopsis(newKatalog.getSinopsis());
+          katalog.setJumlah(newKatalog.getJumlah());
+          return katalogRepo.save(katalog);
+  
+        })
+        .orElseGet(() -> {
+          return katalogRepo.save(newKatalog);
+        });
+      } catch (Exception e) {
+        System.out.println("fungsi gagal dialankan");
+        e.printStackTrace();
+        return null;
+        //TODO: handle exception
+      }
     }
     
     //delete
     @DeleteMapping(path= "/{id}")
     public void deleteKatalog(@PathVariable Long id){
+      try {
+        
         katalogRepo.deleteById(id);
+      } catch (Exception e) {
+        System.out.println("funsi tidak dapat dijalankan");
+        //TODO: handle exception
+      }
     }    
 }

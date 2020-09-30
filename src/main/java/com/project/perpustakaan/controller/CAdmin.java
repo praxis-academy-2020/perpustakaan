@@ -30,54 +30,72 @@ public class CAdmin {
     
     // menampilkan semua user
     // akses admin
-    @GetMapping(path = "/u/")
+    @GetMapping(path = "/")
     public List<User> get_all(){
         return userRepository.findAll();
     }
     
     // get by Id user
     // akses admin
-    @GetMapping(path= "/u/{id}")
+    @GetMapping(path= "/{id}")
     public Optional<User> idUser(@PathVariable Long id){
         return userRepository.findById(id);
     }
 
     // update
     // dilakukan admin dari sebuah id
-    @PutMapping("/u/{id}")
+    @PutMapping("/{id}")
     public User updateUserAndRole(@RequestBody User newUser, long id) {
-        sUser.updateUser(newUser,id);
-        return userRepository.findById(id)
-        .map(user->{
-        user.setRoles(newUser.getRoles());
-        return userRepository.save(user);
-        })
-      .orElseGet(()->{
-        return userRepository.save(newUser);
-      });
+       try {
+           
+           sUser.updateUser(newUser,id);
+           return userRepository.findById(id)
+           .map(user->{
+           user.setRoles(newUser.getRoles());
+           return userRepository.save(user);
+           })
+       .orElseGet(()->{
+           return userRepository.save(newUser);
+       });
+       } catch (Exception e) {
+        System.out.println("fungsi tidak dapt dijalankan");
+        e.printStackTrace();
+        return null; 
+        //TODO: handle exception
+       }
         
     }
 
     // delete user By Id
-    @DeleteMapping(path= "/u/{id}")
+    @DeleteMapping(path= "/{id}")
     public void deleteUser(@PathVariable Long id){
-        userRepository.deleteById(id);
+        try {
+            
+            userRepository.deleteById(id);
+        } catch (Exception e) {
+            //TODO: handle exception
+            e.printStackTrace();
+            System.out.println("program tidak bisa dieksekusi");
+            
+        }
     }
 
     // add user dan admin tergantung role yang dipilih
     // akses admin
-    @PostMapping(path="/u/")
+    @PostMapping(path="/")
     public User addUser(@RequestBody User user){
-        return userRepository.save(user);
+        try {
+            
+            return userRepository.save(user);
+        } catch (Exception e) {
+            System.out.println("fungsi gagal dijalankan");
+            e.printStackTrace();
+            return null;
+            //TODO: handle exception
+        }
     }
 
     //akhir line pengolahan semua user
 
-    //awal line pengolahan katalog
-    
-    //akhir line pengolahan katalog
-
-    //awal line pegolahan peminjaman
-    //akhit line pengolahan peminjaman
 
 }

@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javassist.bytecode.stackmap.BasicBlock.Catch;
+
 @RestController
 @RequestMapping(path = "/peminjaman")
 @PreAuthorize("hasRole(\"ROLE_ADMIN\")")
@@ -51,32 +53,52 @@ public class CPeminjaman {
     //post peminjaman
     @PostMapping(path="/")
     public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman){
+      try {
         return sPeminjaman.addPeminjaman(peminjaman.getIdKatalog(),peminjaman.getIdUser());
+      } catch (Exception e) {
+        System.out.println("fungsi tidak dapat dijalankan");
+        return null;
+        //TODO: handle exception
+      }
     }
 
     //update
     @PutMapping("/{id}")
     Peminjaman updatepeminjaman(@RequestBody Peminjaman newPeminjaman, @PathVariable Long id) {
-      
-      return peminjamanRepo.findById(id)
-      .map(peminjaman -> {
-       peminjaman.setTglPinjam(newPeminjaman.getTglPinjam());
-       peminjaman.setIdKatalog(newPeminjaman.getIdKatalog());
-       peminjaman.setIdUser(newPeminjaman.getIdUser());
-       peminjaman.setStatus(newPeminjaman.getStatus());
-        return peminjamanRepo.save(peminjaman);
-      })
-      .orElseGet(() -> {
-        return peminjamanRepo.save(newPeminjaman);
-      });
+      try {
+        return peminjamanRepo.findById(id)
+        .map(peminjaman -> {
+         peminjaman.setTglPinjam(newPeminjaman.getTglPinjam());
+         peminjaman.setIdKatalog(newPeminjaman.getIdKatalog());
+         peminjaman.setIdUser(newPeminjaman.getIdUser());
+         peminjaman.setStatus(newPeminjaman.getStatus());
+          return peminjamanRepo.save(peminjaman);
+        })
+        .orElseGet(() -> {
+          return peminjamanRepo.save(newPeminjaman);
+        });
+        
+      } catch (Exception e) {
+        System.out.println("fungsi tidak dapat dijalankan");
+        e.getStackTrace();
+        return null;
+        //TODO: handle exception
+      }
     }
     
     //delete. hanya dapat di hapus jika statusnya false
     @DeleteMapping(path= "/{id}")
     public void deletePeminjaman(@PathVariable Long id){
-      Peminjaman peminjaman = peminjamanRepo.findById(id).get();
-      if (!peminjaman.getStatus()) {
-        peminjamanRepo.deleteById(id);  
+      try {
+        
+        Peminjaman peminjaman = peminjamanRepo.findById(id).get();
+        if (!peminjaman.getStatus()) {
+          peminjamanRepo.deleteById(id);  
+        }
+      } catch (Exception e) {
+        System.out.println("fungsi tidak dapat dijalankakn");
+        e.printStackTrace();;
+        //TODO: handle exception
       }
     } 
     
