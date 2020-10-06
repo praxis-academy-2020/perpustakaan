@@ -122,7 +122,8 @@ public class CPeminjaman {
           return peminjamanRepo.save(peminjaman);
         } catch (Exception e) {
           System.out.println(e.getMessage());
-          return peminjamanRepo.save(newPeminjaman);
+          peminjamanRepo.save(newPeminjaman);
+          return null; 
         }
    
     }

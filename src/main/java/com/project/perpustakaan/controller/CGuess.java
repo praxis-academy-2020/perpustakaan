@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import org.springframework.ui.Model;
 import com.project.perpustakaan.exception.AppException;
 import com.project.perpustakaan.model.Katalog;
 import com.project.perpustakaan.model.Role;
@@ -32,11 +33,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RestController
 @RequestMapping(path = "/guess")
+@EnableWebMvc
 public class CGuess {
 
     @Autowired
@@ -52,6 +55,27 @@ public class CGuess {
     @Autowired
     JwtTokenProvider tokenProvider;
     
+
+
+    @PostMapping("/g")
+	public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+		model.addAttribute("name", name);
+		return "greeting";
+    }
+    
+    @GetMapping("/l")
+    public String index() {
+       return "index";
+    }
+ 
+    @PostMapping("/l/hello")
+    public String sayHello(@RequestParam("name") String name, Model model) {
+       model.addAttribute("name", name);
+       return "hello";
+    }
+
+
+
     // line awal pengolahan katalog
     @GetMapping(path= "/k/{id}")
     public Katalog idkatalog(@PathVariable Long id){
@@ -63,6 +87,12 @@ public class CGuess {
         return katalogRepo.findAll();
         //return "gretting";
     }
+
+    @GetMapping(path = "/k/page")
+    public String coba(){
+        
+        return "gretting";
+    }
     //line akhir pengolahan katalog
 
     //line awal pengolahan login
@@ -70,14 +100,12 @@ public class CGuess {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-            
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsernameOrEmail(),
                             loginRequest.getPassword()
                     )
             );
-    
             SecurityContextHolder.getContext().setAuthentication(authentication);
     
             String jwt = tokenProvider.generateToken(authentication);
