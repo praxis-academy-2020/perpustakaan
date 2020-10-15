@@ -83,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/guess/**").permitAll()
+                .antMatchers("/**").permitAll()
                 //mencoba akses semua open untuk guess
                 .antMatchers("/guess/**").permitAll()
                 .anyRequest()
