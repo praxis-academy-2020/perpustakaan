@@ -1,5 +1,7 @@
 package com.project.perpustakaan.config;
 
+import java.util.List;
+
 import com.project.perpustakaan.security.CustomUserDetailsService;
 import com.project.perpustakaan.security.JwtAuthenticationEntryPoint;
 import com.project.perpustakaan.security.JwtAuthenticationFilter;
@@ -18,14 +20,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true,
-        prePostEnabled = true
-)
+@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomUserDetailsService customUserDetailsService;
@@ -37,11 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
+
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(customUserDetailsService)
-                .passwordEncoder(passwordEncoder());
+        authenticationManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
@@ -59,6 +57,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
+                .configurationSource(request -> {
+                    CorsConfiguration cors = new CorsConfiguration();
+                    // cors.allowedOrigins(
+                    //         Lists.newArrayList("*"));
+                    // cors.setAllowedMethods(Lists.newArrayList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    // cors.setAllowedHeaders(Lists.newArrayList("*"));
+                    cors.setAllowCredentials(true);
+                    cors.addAllowedOrigin("*");
+                    cors.addAllowedHeader("*");
+                    cors.addAllowedMethod("OPTIONS");
+                    cors.addAllowedMethod("GET");
+                    cors.addAllowedMethod("PUT");
+                    cors.addAllowedMethod("POST");
+                    cors.addAllowedMethod("DELETE");
+                    cors.addAllowedMethod("PATCH");
+                    return cors;
+                })
                 .and()
                 .csrf()
                 .disable()

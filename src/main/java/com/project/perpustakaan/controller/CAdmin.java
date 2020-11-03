@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(path = "/admin")
 // @PreAuthorize("hasRole(\"ROLE_ADMIN\")")
 public class CAdmin {
@@ -63,12 +63,12 @@ public class CAdmin {
         System.out.println("fungsi tidak dapt dijalankan");
         e.printStackTrace();
         return null; 
-        //TODO: handle exception
        }
         
     }
 
     // delete user By Id
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping(path= "/{id}")
     public void deleteUser(@PathVariable Long id){
         try {
