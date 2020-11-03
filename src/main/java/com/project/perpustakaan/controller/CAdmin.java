@@ -46,25 +46,25 @@ public class CAdmin {
 
     // update
     // dilakukan admin dari sebuah id
-    @PutMapping("/{id}")
-    public User updateUserAndRole(@RequestBody User newUser, long id) {
+    @PutMapping(path="/{id}")
+    public User updateUserAndRole(@RequestBody User newUser,@PathVariable Long id) {
        try {
            
-           sUser.updateUser(newUser,id);
-           return userRepository.findById(id)
-           .map(user->{
-           user.setRoles(newUser.getRoles());
-           return userRepository.save(user);
-           })
-       .orElseGet(()->{
-           return userRepository.save(newUser);
-       });
+           System.out.println("ini adalah id ==="+ id);
+           return sUser.updateUser(newUser,id);
+        //    return userRepository.findById(id)
+        //    .map(user->{
+        //    user.setRoles(newUser.getRoles());
+        //    return userRepository.save(user);
+        //    })
+    //    .orElseGet(()->{
+    //        return userRepository.save(newUser);
+    //    });
        } catch (Exception e) {
         System.out.println("fungsi tidak dapt dijalankan");
         e.printStackTrace();
         return null; 
-       }
-        
+       }        
     }
 
     // delete user By Id
