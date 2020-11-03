@@ -39,8 +39,8 @@ public class CUser {
     @PutMapping("/")
     User updateUser(@RequestBody User newUser, HttpServletRequest request) {
       try {
-        
         long id = service.getUserIdByToken(request);
+        System.out.println("ini adalah updata user by idnya"+ id);
         return sUser.updateUser(newUser,id);
       } catch (Exception e) {
         System.out.println("fungsi gagal dijalankan");

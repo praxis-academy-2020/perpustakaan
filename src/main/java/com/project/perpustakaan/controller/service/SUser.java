@@ -17,9 +17,10 @@ public class SUser {
         return userRepository.findById(id)
         .map(user -> {
           // user.setUsername(newUser.getUsername());
-          // user.setPassword(newUser.getPassword());
+          user.setPassword(newUser.getPassword());
           // user.setEmail(newUser.getEmail());
           user.setNoHp(newUser.getNoHp());
+          System.out.println("ini adalah username = "+newUser.getUsername());
           return userRepository.save(user);  
         })
         .orElseGet(() -> {
