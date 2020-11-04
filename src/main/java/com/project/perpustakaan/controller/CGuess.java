@@ -57,43 +57,13 @@ public class CGuess {
     JwtTokenProvider tokenProvider;
     
 
-
-    @PostMapping("/g")
-	public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-		model.addAttribute("name", name);
-		return "greeting";
-    }
-    
-    @GetMapping("/l")
-    public String index() {
-       return "index";
-    }
- 
-    @PostMapping("/l/hello")
-    public String sayHello(@RequestParam("name") String name, Model model) {
-       model.addAttribute("name", name);
-       return "hello";
-    }
-
-
-
     // line awal pengolahan katalog
     @GetMapping(path= "/k/{id}")
     public Katalog idkatalog(@PathVariable Long id){
         return katalogRepo.findById(id).get();
     }
 
-    @GetMapping(path = "/k/")
-    public List<Katalog> get_all(){
-        return katalogRepo.findAll();
-        //return "gretting";
-    }
 
-    @GetMapping(path = "/k/page")
-    public String coba(){
-        
-        return "gretting";
-    }
     //line akhir pengolahan katalog
 
     //line awal pengolahan login
@@ -154,8 +124,6 @@ public class CGuess {
     }
     //line akhir pengolahan login
 
-    //mencoba view dengan gretting
-    
-    //akhir menciba view
+   
     
 }
