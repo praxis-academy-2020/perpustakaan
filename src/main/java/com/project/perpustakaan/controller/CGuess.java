@@ -57,12 +57,19 @@ public class CGuess {
     JwtTokenProvider tokenProvider;
     
 
+
+
     // line awal pengolahan katalog
     @GetMapping(path= "/k/{id}")
     public Katalog idkatalog(@PathVariable Long id){
         return katalogRepo.findById(id).get();
     }
 
+    @GetMapping(path = "/k/")
+    public List<Katalog> get_all(){
+        return katalogRepo.findAll();
+      
+    }
 
     //line akhir pengolahan katalog
 
@@ -124,6 +131,8 @@ public class CGuess {
     }
     //line akhir pengolahan login
 
-   
+    //mencoba view dengan gretting
+    
+    //akhir menciba view
     
 }

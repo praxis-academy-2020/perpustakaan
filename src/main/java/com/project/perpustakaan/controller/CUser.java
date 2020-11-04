@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/user")
-@PreAuthorize("hasRole(\"ROLE_USER\")")
+// @PreAuthorize("hasRole(\"ROLE_USER\")")
 public class CUser {
 
     @Autowired
