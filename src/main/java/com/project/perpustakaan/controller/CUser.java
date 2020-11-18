@@ -1,5 +1,6 @@
 package com.project.perpustakaan.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,9 +10,12 @@ import com.project.perpustakaan.controller.service.SUser;
 import com.project.perpustakaan.controller.service.Service;
 import com.project.perpustakaan.model.Peminjaman;
 import com.project.perpustakaan.model.User;
+import com.project.perpustakaan.repository.PeminjamanRepo;
 import com.project.perpustakaan.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/user")
 // @PreAuthorize("hasRole(\"ROLE_USER\")")
+// @EnableJpaRepositories
 public class CUser {
 
     @Autowired
@@ -34,6 +39,8 @@ public class CUser {
     private SPeminjaman sPeminjaman;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private PeminjamanRepo peminjamanRepo;
 
     // update USERNYA
     @PutMapping("/")
@@ -65,6 +72,8 @@ public class CUser {
       }
     }
 
+
+
     //get data user
     @GetMapping(path= "/")
     public Optional<User> idUser(HttpServletRequest request){
@@ -79,6 +88,14 @@ public class CUser {
         //TODO: handle exception
       }
     }
+    //mendapatkan total peminjamannya
+    
+    @GetMapping(path= "/peminjaman/{iduser}")
+    public List<Peminjaman> dataPersonalPeminjaman (@PathVariable Long iduser){
+        return peminjamanRepo.findByIduser(iduser);
+    }
+
+   
 
     //get Besar tagihan by id User
       
