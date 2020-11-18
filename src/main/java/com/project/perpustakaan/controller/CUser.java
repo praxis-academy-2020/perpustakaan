@@ -31,72 +31,69 @@ import org.springframework.web.bind.annotation.RestController;
 // @EnableJpaRepositories
 public class CUser {
 
-    @Autowired
-    private SUser sUser;
-    @Autowired
-    private Service service;
-    @Autowired
-    private SPeminjaman sPeminjaman;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    private PeminjamanRepo peminjamanRepo;
+  @Autowired
+  private SUser sUser;
+  @Autowired
+  private Service service;
+  @Autowired
+  private SPeminjaman sPeminjaman;
+  @Autowired
+  UserRepository userRepository;
+  @Autowired
+  private PeminjamanRepo peminjamanRepo;
 
-    // update USERNYA
-    @PutMapping("/")
-    User updateUser(@RequestBody User newUser, HttpServletRequest request) {
-      try {
-        long id = service.getUserIdByToken(request);
-        System.out.println("ini adalah updata user by idnya"+ id);
-        return sUser.updateUser(newUser,id);
-      } catch (Exception e) {
-        System.out.println("fungsi gagal dijalankan");
-        e.printStackTrace();
-        return null;
-        //TODO: handle exception
-      }
+  // update USERNYA
+  @PutMapping("/")
+  User updateUser(@RequestBody User newUser, HttpServletRequest request) {
+    try {
+      long id = service.getUserIdByToken(request);
+      System.out.println("ini adalah updata user by idnya" + id);
+      return sUser.updateUser(newUser, id);
+    } catch (Exception e) {
+      System.out.println("fungsi gagal dijalankan");
+      e.printStackTrace();
+      return null;
+      // TODO: handle exception
     }
+  }
 
-    //post peminjamanNYA
-    @PostMapping(path="/")
-    public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman, HttpServletRequest request){
-      try {
-        
-        long id = service.getUserIdByToken(request);
-        return sPeminjaman.addPeminjaman(peminjaman.getIdKatalog(),id);
-      } catch (Exception e) {
-        System.out.println("fungsi tidak dapat dijalankan");
-        e.printStackTrace();
-        return null;
-        //TODO: handle exception
-      }
+  // post peminjamanNYA
+  @PostMapping(path = "/")
+  public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman, HttpServletRequest request) {
+    try {
+
+      long id = service.getUserIdByToken(request);
+      return sPeminjaman.addPeminjaman(peminjaman.getIdKatalog(), id);
+    } catch (Exception e) {
+      System.out.println("fungsi tidak dapat dijalankan");
+      e.printStackTrace();
+      return null;
+      // TODO: handle exception
     }
+  }
 
+  // get data user
+  @GetMapping(path = "/")
+  public Optional<User> idUser(HttpServletRequest request) {
+    try {
+      long id = service.getUserIdByToken(request);
+      return userRepository.findById(id);
 
-
-    //get data user
-    @GetMapping(path= "/")
-    public Optional<User> idUser(HttpServletRequest request){
-      try {
-        long id = service.getUserIdByToken(request);
-        return userRepository.findById(id);
-        
-      } catch (Exception e) {
-        System.out.println("fungsi gagal dijalankan");
-        e.printStackTrace();
-        return null;
-        //TODO: handle exception
-      }
+    } catch (Exception e) {
+      System.out.println("fungsi gagal dijalankan");
+      e.printStackTrace();
+      return null;
+      // TODO: handle exception
     }
-    //mendapatkan total peminjamannya
-    
-    @GetMapping(path= "/peminjaman/{iduser}")
-    public List<Peminjaman> dataPersonalPeminjaman (@PathVariable Long iduser){
-        return peminjamanRepo.findByIduser(iduser);
-    }
+  }
+  // mendapatkan  peminjamannya dari token
 
-   
+  @GetMapping(path = "/peminjaman/")
+  public List<Peminjaman> dataPersonalPeminjaman(HttpServletRequest request) {
+    long id = service.getUserIdByToken(request);
+    return peminjamanRepo.findByIduser(id);
+  }
 
-    //get Besar tagihan by id User
-      
+  // get Besar tagihan by id User
+
 }
