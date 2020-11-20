@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/user")
-// @PreAuthorize("hasRole(\"ROLE_USER\")")
+@PreAuthorize("hasRole(\"ROLE_USER\")")
 // @EnableJpaRepositories
 public class CUser {
 
