@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/katalog")
-@PreAuthorize("hasRole(\"ROLE_ADMIN\")")
+// @PreAuthorize("hasRole(\"ROLE_ADMIN\")")
 public class CKatalog{
     @Autowired
     private KatalogRepo katalogRepo;

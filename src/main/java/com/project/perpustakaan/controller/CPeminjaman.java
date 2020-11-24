@@ -27,7 +27,7 @@ import javassist.bytecode.stackmap.BasicBlock.Catch;
 
 @RestController
 @RequestMapping(path = "/peminjaman")
-@PreAuthorize("hasRole(\"ROLE_ADMIN\")")
+// @PreAuthorize("hasRole(\"ROLE_ADMIN\")")
 public class CPeminjaman {
 
     @Autowired

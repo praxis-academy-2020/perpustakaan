@@ -42,6 +42,9 @@ public class User extends DateAudit{
         @Email
         private String email;
 
+        @Column(nullable = true, length = 64)
+	private String photo;
+
         @NotBlank
         @Size(max = 100)
         private String password;
@@ -94,6 +97,14 @@ public class User extends DateAudit{
 
         public void setEmail(String email) {
                 this.email = email;
+        }
+
+        public String getphoto() {
+                return email;
+        }
+
+        public void setphoto(String photo) {
+                this.photo = photo;
         }
 
         public String getPassword() {

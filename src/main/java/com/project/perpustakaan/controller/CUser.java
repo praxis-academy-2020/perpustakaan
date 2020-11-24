@@ -12,6 +12,8 @@ import com.project.perpustakaan.model.Peminjaman;
 import com.project.perpustakaan.model.User;
 import com.project.perpustakaan.repository.PeminjamanRepo;
 import com.project.perpustakaan.repository.UserRepository;
+// import com.project.perpustakaan.storage.StorageService;
+import com.project.perpustakaan.storage.StorageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.context.annotation.Bean;
@@ -23,11 +25,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 @RequestMapping(path = "/user")
-@PreAuthorize("hasRole(\"ROLE_USER\")")
+// @PreAuthorize("hasRole(\"ROLE_USER\")")
 // @EnableJpaRepositories
 public class CUser {
 
@@ -41,6 +46,14 @@ public class CUser {
   UserRepository userRepository;
   @Autowired
   private PeminjamanRepo peminjamanRepo;
+
+  @Autowired
+  private StorageService storageService;
+
+  // merupakan controller
+  // public CUser(StorageService storageService) {
+  //   this.storageService = storageService;
+  // }
 
   // update USERNYA
   @PutMapping("/")
@@ -59,11 +72,16 @@ public class CUser {
 
   // post peminjamanNYA
   @PostMapping(path = "/")
-  public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman, HttpServletRequest request) {
+  public Peminjaman addPeminjaman(@RequestBody Peminjaman peminjaman, HttpServletRequest request,
+      @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
     try {
 
       long id = service.getUserIdByToken(request);
+      // mencba import gambar
+      storageService.store(file);
+      // redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
       return sPeminjaman.addPeminjaman(peminjaman.getIdKatalog(), id);
+
     } catch (Exception e) {
       System.out.println("fungsi tidak dapat dijalankan");
       e.printStackTrace();
@@ -86,7 +104,7 @@ public class CUser {
       // TODO: handle exception
     }
   }
-  // mendapatkan  peminjamannya dari token
+  // mendapatkan peminjamannya dari token
 
   @GetMapping(path = "/peminjaman/")
   public List<Peminjaman> dataPersonalPeminjaman(HttpServletRequest request) {
