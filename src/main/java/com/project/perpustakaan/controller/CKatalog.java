@@ -50,8 +50,6 @@ public class CKatalog {
   }
 
   // post
-  // @PostMapping(path = "/")
-  // @PreAuthorize("hasRole(\"ROLE_ADMIN\")")
   @RequestMapping(path = "/", method = RequestMethod.POST, consumes = { "multipart/form-data" })
   public Katalog addKatalog(@RequestPart("katalog") Katalog katalog, @RequestPart("file") MultipartFile file) {
     // menambahkab gambar pada katalog
@@ -62,9 +60,6 @@ public class CKatalog {
     System.out.print(katalog);
     return katalogRepo.save(katalog);
   }
-
-  // membuat fungsi untuk mendapatkan user_role
-  // jika rolenya berhasil maka akan diambil
 
   // update
   @PutMapping("/{id}")
