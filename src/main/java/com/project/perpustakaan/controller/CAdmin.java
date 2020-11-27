@@ -34,7 +34,9 @@ public class CAdmin {
     // akses admin
     @GetMapping(path = "/")
     public List<User> get_all(){
-        return userRepository.findAll();
+        //mendapatkan foto untuk di link
+        List<User> data = userRepository.findAll();
+        return (data);
     }
     
     // get by Id user

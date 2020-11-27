@@ -21,7 +21,7 @@ public class PerpustakaanApplication implements CommandLineRunner {
 
 	@Override
     public void run(String... arg) throws Exception {
-        storageService.deleteAll();
-        storageService.init();
+        // storageService.deleteAll();
+        // storageService.init();
     }
 }

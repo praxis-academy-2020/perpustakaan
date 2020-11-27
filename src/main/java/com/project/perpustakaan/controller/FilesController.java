@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,7 @@ public class FilesController {
     @Autowired
     FilesStorageService storageService;
 
-    @PostMapping(path="/upload")
+    @PostMapping(path = "/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
@@ -44,13 +45,13 @@ public class FilesController {
         }
     }
 
-    @GetMapping(path="/files")
+    @GetMapping(path = "/files")
     public ResponseEntity<List<FileInfo>> getListFiles() {
         List<FileInfo> fileInfos = storageService.loadAll().map(path -> {
             String filename = path.getFileName().toString();
             String url = MvcUriComponentsBuilder
                     .fromMethodName(FilesController.class, "getFile", path.getFileName().toString()).build().toString();
-
+            System.out.println(url);
             return new FileInfo(filename, url);
         }).collect(Collectors.toList());
 
@@ -61,7 +62,24 @@ public class FilesController {
     @ResponseBody
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = storageService.load(filename);
+        System.out.println("ini adlahah nama file saat get : " + file.getFilename());
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+    }
+
+    
+    //masih error
+    @DeleteMapping(path = "file/delete/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        try {
+
+            System.out.println("anda berhasil meenghapus data");
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            System.out.println("program tidak bisa dieksekusi");
+
+        }
     }
 }

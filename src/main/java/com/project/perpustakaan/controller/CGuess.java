@@ -65,7 +65,7 @@ public class CGuess {
         return katalogRepo.findById(id).get();
     }
 
-    @GetMapping(path = "/k/")
+    @GetMapping(path = "/k")
     public List<Katalog> get_all(){
         return katalogRepo.findAll();
       
@@ -112,7 +112,7 @@ public class CGuess {
 
         // Creating user's account
         User user = new User(signUpRequest.getNoHp(), signUpRequest.getUsername(),
-                signUpRequest.getEmail(), signUpRequest.getPassword());
+                signUpRequest.getEmail(), signUpRequest.getFoto(), signUpRequest.getPassword());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 

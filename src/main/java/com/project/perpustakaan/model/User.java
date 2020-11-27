@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 
 import com.project.perpustakaan.model.audit.DateAudit;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.NaturalId;
 
 import java.util.HashSet;
@@ -42,6 +43,11 @@ public class User extends DateAudit{
         @Email
         private String email;
 
+        //harus di buat unik
+        @Column(name = "foto")
+        @ColumnDefault(value = "'ImageUser.png")
+        private String foto;
+
         @NotBlank
         @Size(max = 100)
         private String password;
@@ -57,11 +63,12 @@ public class User extends DateAudit{
         public User() {
 
         }
-        public User(String noHp, String username, String email, String password) {
+        public User(String noHp, String username, String email, String password, String foto) {
                 this.noHp = noHp;
                 this.username = username;
                 this.email = email;
                 this.password = password;
+                this.foto = foto;
         }
 
         public Long getId() {
@@ -94,6 +101,14 @@ public class User extends DateAudit{
 
         public void setEmail(String email) {
                 this.email = email;
+        }
+
+        public String getFoto() {
+                return foto;
+        }
+
+        public void setFoto(String foto) {
+                this.foto = foto;
         }
 
         public String getPassword() {

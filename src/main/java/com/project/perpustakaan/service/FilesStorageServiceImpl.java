@@ -56,6 +56,12 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(root.toFile());
     }
+    
+    @Override
+    public void delete(String nameFile){
+        //untuk menghapus user
+        System.out.println("delete file");
+    }
 
     @Override
     public Stream<Path> loadAll() {

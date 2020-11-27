@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 //import org.hibernate.mapping.List;
 
 @Entity
@@ -18,7 +20,7 @@ import javax.persistence.Table;
 public class Katalog {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
@@ -32,56 +34,75 @@ public class Katalog {
 
     @Column
     private String sinopsis;
+
     
+    @Column(name = "foto")
+    @ColumnDefault(value = "'ImageKatalog.jpg")
+    private String foto;
+
     @OneToMany(mappedBy = "katalog")
     private List<Peminjaman> peminjaman;
 
     @Column(columnDefinition = "integer default 1")
     private int jumlah;
 
-    //membuat setter dan getter dan reaalsi table
+    // membuat setter dan getter dan reaalsi table
 
-    //id
-    public Long getId(){
+    // id
+    public Long getId() {
         return this.id;
     }
-    //judul
-    public void setJudul(String judul){
+
+    // judul
+    public void setJudul(String judul) {
         this.judul = judul;
     }
-    public String getJudul(){
+
+    public String getJudul() {
         return this.judul;
     }
-    //author
-    public void setAuthor(String author){
+
+    // author
+    public void setAuthor(String author) {
         this.author = author;
     }
-    public String getAuthor(){
+
+    public String getAuthor() {
         return this.author;
     }
 
-    //tahun
-    public void setTahun(int tahun){
+    // tahun
+    public void setTahun(int tahun) {
         this.tahun = tahun;
     }
-    public int getTahun(){
+
+    public int getTahun() {
         return this.tahun;
     }
-    //sinopsis
-    public void setSinopsis(String sinopsis){
+
+    // sinopsis
+    public void setSinopsis(String sinopsis) {
         this.sinopsis = sinopsis;
     }
-    public String getSinopsis(){
+
+    public String getSinopsis() {
         return this.sinopsis;
     }
 
-    public void setJumlah(int jumlah){
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public void setJumlah(int jumlah) {
         this.jumlah = jumlah;
     }
-    
-    public int getJumlah(){
+
+    public int getJumlah() {
         return this.jumlah;
     }
 
-    
 }
