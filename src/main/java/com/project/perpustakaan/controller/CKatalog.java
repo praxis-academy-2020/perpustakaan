@@ -1,5 +1,8 @@
 package com.project.perpustakaan.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import com.project.perpustakaan.model.Katalog;
 import com.project.perpustakaan.repository.KatalogRepo;
@@ -37,6 +40,9 @@ public class CKatalog {
   @Autowired
   UserRepository userRepository;
 
+  DateFormat formatTanggal = new SimpleDateFormat("_HH-mm-ss-SSSS_dd-MM-yyyy");
+  Calendar kalender = Calendar.getInstance();
+
   // menampilkan semua
   @GetMapping(path = "/")
   public List<Katalog> get_all() {
@@ -53,11 +59,14 @@ public class CKatalog {
   @RequestMapping(path = "/", method = RequestMethod.POST, consumes = { "multipart/form-data" })
   public Katalog addKatalog(@RequestPart("katalog") Katalog katalog, @RequestPart("file") MultipartFile file) {
     // menambahkab gambar pada katalog
-    storageService.save(file);
-    String url = "http://localhost:8081/files/".concat(file.getOriginalFilename());
-    System.out.println(url);
+
+    String rename = "katalog_".concat(katalog.getJudul()).concat(formatTanggal.format(kalender.getTime()));
+    String newNameFoto = storageService.save(file, rename);
+    String url = "http://localhost:8081/files/".concat(newNameFoto);
+
+    System.out.println("ini adalah urlnya" + url);
     katalog.setFoto(url);
-    System.out.print(katalog);
+    System.out.println("inin adlaha id katalgnya" + katalog.getId());
     return katalogRepo.save(katalog);
   }
 
@@ -89,7 +98,15 @@ public class CKatalog {
   @DeleteMapping(path = "/{id}")
   public void deleteKatalog(@PathVariable Long id) {
     try {
-
+      Katalog katalog = katalogRepo.findById(id).get();
+      String deleteLink = katalog.getFoto();
+      // memecah string untuk mendapatkan nama foto
+      String[] deleteFiles = deleteLink.split("/");
+      String deleteFile = deleteFiles[deleteFiles.length - 1];
+      if (deleteFile != "ImageKatalog.jpg") {
+        storageService.delete(deleteFile);
+      }
+      // delete row database
       katalogRepo.deleteById(id);
     } catch (Exception e) {
       System.out.println("funsi tidak dapat dijalankan");
