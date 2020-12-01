@@ -23,5 +23,6 @@ public class PerpustakaanApplication implements CommandLineRunner {
     public void run(String... arg) throws Exception {
         // storageService.deleteAll();
         // storageService.init();
+        // storageService.delete("error.png");
     }
 }

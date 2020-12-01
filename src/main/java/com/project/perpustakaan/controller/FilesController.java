@@ -1,5 +1,9 @@
 package com.project.perpustakaan.controller;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,12 +13,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,10 +42,16 @@ public class FilesController {
     @PostMapping(path = "/")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
-        try {
-            storageService.save(file);
+        DateFormat formatTanggal = new SimpleDateFormat("HH-mm-ss-dd/MM/yyyy");
+        Calendar kalender = Calendar.getInstance();
+        String rename = "foto_".concat(formatTanggal.format(kalender.getTime()));
+        String newNameFoto = storageService.save(file, rename);
 
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        try {
+
+            storageService.save(file, newNameFoto);
+
+            message = "Uploaded the file successfully: " + newNameFoto;
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";
@@ -69,17 +81,29 @@ public class FilesController {
                 .body(file);
     }
 
-    // masih error
-    @DeleteMapping(path = "/delete/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        try {
+    @RequestMapping(path = "/removeFile", method = RequestMethod.DELETE)
+    public String removeFileHandler(@PathVariable("deletedFileName") String filepath) {
+        System.out.println(filepath);
+        // // String removeFileCheck = "false";
+        // try {
 
-            System.out.println("anda berhasil meenghapus data");
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-            System.out.println("program tidak bisa dieksekusi");
+        // System.out.println(filepath);
+        // System.out.println("Delete filepath from AJX");
+        // File file = new File(filepath);
 
-        }
+        // if (file.delete()) {
+        // System.out.println(file.getName() + " is deleted!");
+        // // removeFileCheck = "true";
+        // } else {
+        // System.out.println("Delete operation is failed.");
+        // }
+
+        // } catch (Exception e) {
+
+        // e.printStackTrace();
+
+        // }
+        // model.addAttribute("checkList", removeFileCheck);
+        return "p/view";
     }
 }
