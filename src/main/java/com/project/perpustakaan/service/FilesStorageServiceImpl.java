@@ -1,5 +1,6 @@
 package com.project.perpustakaan.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -28,12 +29,22 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     }
 
     @Override
-    public void save(MultipartFile file) {
+    public  String save(MultipartFile file, String rename) {
+        String name = file.getOriginalFilename();
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+        String fileName=file.getOriginalFilename() ;
+        int dot = fileName.lastIndexOf(".");
+        String ext = fileName.substring(dot+1);
+        System.out.println("ini adalah ext = "+ext);
+        System.out.println(rename);
+        name = String.format("%s.%s", rename, "ext");
+        
+        Files.copy(file.getInputStream(), this.root.resolve(name));
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
+        System.out.println(name);
+        return name;
     }
 
     @Override
@@ -56,11 +67,19 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(root.toFile());
     }
-    
+
     @Override
-    public void delete(String nameFile){
-        //untuk menghapus user
-        System.out.println("delete file");
+    public void delete(String nameFile) {
+        // untuk menghapus user
+        File file = new File("./uploads/".concat(nameFile));
+
+        if (file.delete()) {
+            System.out.println(file.getName() + " is deleted!");
+            // removeFileCheck = "true";
+        } else {
+            System.out.println("Delete operation is failed.");
+        }
+        System.out.println(file);
     }
 
     @Override
@@ -72,4 +91,3 @@ public class FilesStorageServiceImpl implements FilesStorageService {
         }
     }
 }
-
