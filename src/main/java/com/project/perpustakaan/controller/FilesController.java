@@ -38,11 +38,11 @@ public class FilesController {
 
     @Autowired
     FilesStorageService storageService;
+    DateFormat formatTanggal = new SimpleDateFormat("_HH-mm-ss-SSSS_dd-MM-yyyy");
 
     @PostMapping(path = "/")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
-        DateFormat formatTanggal = new SimpleDateFormat("HH-mm-ss-dd/MM/yyyy");
         Calendar kalender = Calendar.getInstance();
         String rename = "foto_".concat(formatTanggal.format(kalender.getTime()));
         String newNameFoto = storageService.save(file, rename);

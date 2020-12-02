@@ -59,7 +59,7 @@ public class CKatalog {
   @RequestMapping(path = "/", method = RequestMethod.POST, consumes = { "multipart/form-data" })
   public Katalog addKatalog(@RequestPart("katalog") Katalog katalog, @RequestPart("file") MultipartFile file) {
     // menambahkab gambar pada katalog
-
+    Calendar kalender = Calendar.getInstance();
     String rename = "katalog_".concat(katalog.getJudul()).concat(formatTanggal.format(kalender.getTime()));
     String newNameFoto = storageService.save(file, rename);
     String url = "http://localhost:8081/files/".concat(newNameFoto);
@@ -72,26 +72,39 @@ public class CKatalog {
 
   // update
   @PutMapping("/{id}")
-  Katalog updatekatalog(@RequestBody Katalog newKatalog, @PathVariable Long id) {
-    try {
+  @RequestMapping(path = "/{id}", method = RequestMethod.PUT, consumes = { "multipart/form-data" })
+  Katalog updatekatalog(@RequestPart("file") MultipartFile file, @RequestPart("katalog") Katalog newKatalog,
+      @PathVariable Long id) {
 
-      return katalogRepo.findById(id).map(katalog -> {
-        katalog.setJudul(newKatalog.getJudul());
-        katalog.setAuthor(newKatalog.getAuthor());
-        katalog.setTahun(newKatalog.getTahun());
-        katalog.setSinopsis(newKatalog.getSinopsis());
-        katalog.setJumlah(newKatalog.getJumlah());
-        return katalogRepo.save(katalog);
+    return katalogRepo.findById(id).map(katalog -> {
+      katalog.setJudul(newKatalog.getJudul());
+      katalog.setAuthor(newKatalog.getAuthor());
+      katalog.setTahun(newKatalog.getTahun());
+      katalog.setSinopsis(newKatalog.getSinopsis());
+      katalog.setJumlah(newKatalog.getJumlah());
+      // manipulasi filenya
+      String LinkNameFoto = katalog.getFoto();
+      String[] deleteFiles = LinkNameFoto.split("/");
+      String deleteFile = deleteFiles[deleteFiles.length - 1];
+      Calendar kalender = Calendar.getInstance();
+      String rename = "katalog_".concat(newKatalog.getJudul()).concat(formatTanggal.format(kalender.getTime()));
+      System.out.println("ini nama dari file baru = "+rename);
+      try {
+        LinkNameFoto = storageService.save(file, rename);
+        String url = "http://localhost:8081/files/".concat(LinkNameFoto);
+        katalog.setFoto(url);
+        if (deleteFile != "ImageKatalog.jpg") {
+          storageService.delete(deleteFile);
+        }
+      } catch (Exception e) {
+        System.out.println(e);
+      }
 
-      }).orElseGet(() -> {
-        return katalogRepo.save(newKatalog);
-      });
-    } catch (Exception e) {
-      System.out.println("fungsi gagal dialankan");
-      e.printStackTrace();
-      return null;
-      // TODO: handle exception
-    }
+      return katalogRepo.save(katalog);
+    }).orElseGet(() -> {
+      return katalogRepo.save(newKatalog);
+    });
+
   }
 
   // delete

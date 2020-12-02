@@ -111,16 +111,18 @@ public class CGuess {
         // Creating user's account
         User user = new User(signUpRequest.getNoHp(), signUpRequest.getUsername(), signUpRequest.getEmail(),
                 signUpRequest.getFoto(), signUpRequest.getPassword());
-        //menyimpan foto
-        storageService.save(file);
-        String url = "http://localhost:8081/files/".concat(file.getOriginalFilename());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // menyimpan foto
+        String rename = "user_".concat(signUpRequest.getEmail());
+        String newNameFoto = storageService.save(file, rename);
+        String url = "http://localhost:8081/files/".concat(newNameFoto);
         user.setFoto(url);
+        
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println(url);
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)// tempat menaruh role admin atau user
                 .orElseThrow(() -> new AppException("User Role not set."));
         // masih salah membuat role
         user.setRoles(Collections.singleton(userRole));
-        // System.out.println("INI ROLES COYY = " + user.getRoles());
         User result = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
@@ -128,10 +130,4 @@ public class CGuess {
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
-    // line akhir pengolahan login
-
-    // mencoba view dengan gretting
-
-    // akhir menciba view
-
 }

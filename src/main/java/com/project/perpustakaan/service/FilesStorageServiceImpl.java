@@ -29,17 +29,15 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     }
 
     @Override
-    public  String save(MultipartFile file, String rename) {
+    public String save(MultipartFile file, String rename) {
         String name = file.getOriginalFilename();
         try {
-        String fileName=file.getOriginalFilename() ;
-        int dot = fileName.lastIndexOf(".");
-        String ext = fileName.substring(dot+1);
-        System.out.println("ini adalah ext = "+ext);
-        System.out.println(rename);
-        name = String.format("%s.%s", rename, "ext");
-        
-        Files.copy(file.getInputStream(), this.root.resolve(name));
+            String fileName = file.getOriginalFilename();
+            int dot = fileName.lastIndexOf(".");
+            String ext = fileName.substring(dot + 1);
+            name = String.format("%s.%s", rename, ext);
+
+            Files.copy(file.getInputStream(), this.root.resolve(name));
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
